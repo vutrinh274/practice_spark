@@ -51,8 +51,9 @@ jobs:
             systemctl disable nginx 2>/dev/null || true
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             export IMAGE_TAG=${{ github.sha }}
-            envsubst < docker-compose.prod.yml | docker compose -f - pull
-            envsubst < docker-compose.prod.yml | docker compose -f - up -d
+            envsubst < docker-compose.prod.yml > docker-compose.resolved.yml
+            docker compose -f docker-compose.resolved.yml pull
+            docker compose -f docker-compose.resolved.yml up -d
             make seed
             docker image prune -f
         env:

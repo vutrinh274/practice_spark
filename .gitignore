@@ -36,3 +36,4 @@ packages/problems/*/expected.csv
 
 # IDE
 .vscode/settings.json
+docker-compose.resolved.yml
