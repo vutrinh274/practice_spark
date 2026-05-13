@@ -486,7 +486,7 @@ export default function ProblemPage() {
                           <ReactMarkdown
                             components={{
                               pre({ children }) {
-                                const code = (children as React.ReactElement)?.props?.children as string ?? "";
+                                const code = ((children as React.ReactElement)?.props as { children?: string })?.children ?? "";
                                 return (
                                   <div className="relative">
                                     <div className="absolute -top-6 right-0">

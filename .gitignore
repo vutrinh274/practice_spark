@@ -5,9 +5,7 @@ SPEC_*.md
 .claude/
 
 # Environment files
-.env
-.env.local
-.env.prod
+.env.*
 apps/api/.env
 apps/api/.env.prod
 apps/web/.env.local
