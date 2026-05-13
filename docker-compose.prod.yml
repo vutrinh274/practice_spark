@@ -17,7 +17,7 @@ services:
     expose:
       - "15002"  # internal only — not exposed to host
     volumes:
-      - problems_data:/problems:rw
+      - ./packages/problems:/problems:rw
     environment:
       - SPARK_NO_DAEMONIZE=true
     command: >
@@ -38,13 +38,11 @@ services:
       - ./apps/api/.env.prod
     volumes:
       - db_data:/app/data
-      - problems_data:/problems:rw
+      - ./packages/problems:/problems:rw
     depends_on:
       - spark-connect
     restart: unless-stopped
 
 volumes:
   db_data:
-    driver: local
-  problems_data:
     driver: local
