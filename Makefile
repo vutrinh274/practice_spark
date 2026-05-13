@@ -100,10 +100,10 @@ prod-build:
 	docker compose -f docker-compose.prod.yml up -d --build api
 
 deploy:
-	ssh $(SERVER) "cd /app && git pull && docker compose -f docker-compose.prod.yml up -d --build api"
+	ssh $(SERVER) "cd ~/practice_spark && git pull && docker compose -f docker-compose.prod.yml up -d --build api"
 
 seed-prod:
-	ssh $(SERVER) "cd /app && make seed"
+	ssh $(SERVER) "cd ~/practice_spark && make seed"
 
 backup-db:
 	ssh $(SERVER) "docker exec api sqlite3 /app/data/spark_practice.db .dump" > backups/backup_$(shell date +%Y%m%d_%H%M).sql
