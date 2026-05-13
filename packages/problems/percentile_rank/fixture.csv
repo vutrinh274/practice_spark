@@ -1,0 +1,13 @@
+rep_id,name,region,total_sales
+1,Alice,North,82000
+2,Bob,North,95000
+3,Carol,North,71000
+4,Dave,North,110000
+5,Eve,South,63000
+6,Frank,South,88000
+7,Grace,South,75000
+8,Hank,South,92000
+9,Iris,West,55000
+10,Jack,West,78000
+11,Karen,West,99000
+12,Leo,West,67000

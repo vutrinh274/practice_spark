@@ -1,0 +1,1 @@
+An **active user** is any user who appears at least once in the activity log for a given month. You need to extract the month from the date column, then count how many **unique** user IDs appear in each month group.

@@ -1,0 +1,1 @@
+You can count array elements without exploding: `SIZE(SPLIT(tags, ','))` returns the length of the resulting array directly. Alternatively, explode first and then `COUNT(*)` per group — both approaches give the same result.

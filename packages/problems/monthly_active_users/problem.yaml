@@ -1,0 +1,34 @@
+id: monthly_active_users
+title: Monthly Active Users
+difficulty: medium
+tags:
+  - date functions
+  - count distinct
+
+datasets:
+  - name: user_activity
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  user_activity:
+    - { column: user_id, type: INT }
+    - { column: activity_date, type: STRING }
+    - { column: action, type: STRING }

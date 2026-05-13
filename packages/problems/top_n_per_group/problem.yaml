@@ -1,0 +1,34 @@
+id: top_n_per_group
+title: Top N per Group
+difficulty: medium
+tags:
+  - window functions
+  - ranking
+
+datasets:
+  - name: employees
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/window.md
+  - ./hints/filter.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  employees:
+    - { column: department, type: STRING }
+    - { column: employee, type: STRING }
+    - { column: salary, type: INT }

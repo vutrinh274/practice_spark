@@ -1,0 +1,1 @@
+Use `AVG(amount) OVER (ORDER BY sale_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)`. For the first 6 days, the window is smaller than 7 rows — Spark computes the average over however many rows are available (this is fine and expected behavior).

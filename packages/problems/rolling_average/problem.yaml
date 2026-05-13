@@ -1,0 +1,34 @@
+id: rolling_average
+title: 7-Day Rolling Average
+difficulty: hard
+tags:
+  - window functions
+  - rolling
+  - rows between
+
+datasets:
+  - name: daily_sales
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  daily_sales:
+    - { column: sale_date, type: STRING }
+    - { column: amount, type: INT }

@@ -1,0 +1,1 @@
+Use `LAG(revenue) OVER (PARTITION BY category ORDER BY year)` to get the previous year's revenue. Then apply the growth formula: `(revenue - lag_revenue) / lag_revenue * 100`. The first year per category produces NULL for LAG, so the growth percentage will also be NULL.

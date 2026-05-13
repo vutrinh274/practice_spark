@@ -1,0 +1,12 @@
+order_id,customer_name,address,items_count
+1,Alice Johnson,"{""street"":""123 Main St"",""city"":""New York"",""zip"":""10001""}",3
+2,Bob Smith,"{""street"":""456 Oak Ave"",""city"":""Chicago"",""zip"":""60601""}",1
+3,Carol White,"{""street"":""789 Pine Rd"",""city"":""Los Angeles"",""zip"":""90001""}",5
+4,Dave Brown,"{""street"":""321 Elm St"",""city"":""Houston"",""zip"":""77001""}",2
+5,Eve Davis,"{""street"":""654 Maple Dr"",""city"":""Phoenix"",""zip"":""85001""}",4
+6,Frank Miller,"{""street"":""987 Cedar Ln"",""city"":""Philadelphia"",""zip"":""19101""}",1
+7,Grace Wilson,"{""street"":""147 Birch Blvd"",""city"":""San Antonio"",""zip"":""78201""}",3
+8,Hank Moore,"{""street"":""258 Walnut Way"",""city"":""San Diego"",""zip"":""92101""}",2
+9,Iris Taylor,"{""street"":""369 Spruce St"",""city"":""Dallas"",""zip"":""75201""}",6
+10,Jack Anderson,"{""street"":""741 Ash Ave"",""city"":""San Jose"",""zip"":""95101""}",1
+

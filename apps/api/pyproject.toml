@@ -1,0 +1,22 @@
+[project]
+name = "spark-practice-api"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.111.0",
+    "uvicorn==0.29.0",
+    "pyspark==4.0.0",
+    "pandas>=2.0.0,<2.3.0",
+    "pyarrow>=14.0.0",
+    "grpcio>=1.48.1",
+    "grpcio-status>=1.48.1",
+    "googleapis-common-protos>=1.56.4",
+    "pyyaml>=6.0",
+    "requests>=2.33.1",
+    "pyjwt[crypto]>=2.12.1",
+    "cryptography>=43.0.0",
+    "httpx>=0.28.1",
+    "python-dotenv>=1.2.2",
+    "sqlalchemy>=2.0.0",
+    "slowapi>=0.1.9",
+]

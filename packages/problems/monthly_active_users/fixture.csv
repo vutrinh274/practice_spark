@@ -1,0 +1,16 @@
+user_id,activity_date,action
+1,2024-01-05,login
+2,2024-01-07,login
+3,2024-01-10,purchase
+1,2024-01-15,purchase
+4,2024-01-20,login
+2,2024-02-03,login
+3,2024-02-08,purchase
+5,2024-02-12,login
+1,2024-02-18,login
+6,2024-02-22,purchase
+2,2024-03-01,login
+4,2024-03-09,login
+5,2024-03-14,purchase
+3,2024-03-20,login
+7,2024-03-25,login

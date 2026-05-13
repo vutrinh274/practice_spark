@@ -1,0 +1,1 @@
+This is a two-step problem: first aggregate per customer to get total spend, then filter to only keep customers whose total exceeds the average of all totals. The average is computed over the already-aggregated values, not the raw rows.

@@ -1,0 +1,35 @@
+id: split_count_words
+title: Split and Count Words
+difficulty: medium
+tags:
+  - split
+  - explode
+  - string functions
+
+datasets:
+  - name: reviews
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  reviews:
+    - { column: review_id, type: INT }
+    - { column: product_id, type: INT }
+    - { column: review_text, type: STRING }

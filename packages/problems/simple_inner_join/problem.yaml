@@ -1,0 +1,42 @@
+id: simple_inner_join
+title: Simple Inner Join
+difficulty: easy
+tags:
+  - joins
+  - filtering
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./orders.csv
+  - name: customers
+    source: csv
+    path: ./customers.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/syntax.md
+  - ./hints/filter.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: customer_id, type: INT }
+    - { column: amount, type: INT }
+    - { column: status, type: STRING }
+  customers:
+    - { column: customer_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: city, type: STRING }

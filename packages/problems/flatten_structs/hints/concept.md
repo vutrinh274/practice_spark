@@ -1,0 +1,1 @@
+Flattening a nested structure means promoting nested fields up to the top-level row. When the nesting is stored as a JSON string, you first parse it into a Spark struct with `from_json`, then access sub-fields with dot notation or `getField`. This is a common pattern in data lake ingestion pipelines where events are stored as JSON blobs.

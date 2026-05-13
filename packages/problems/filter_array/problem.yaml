@@ -1,0 +1,34 @@
+id: filter_array
+title: Filter Users by Interest
+difficulty: medium
+tags:
+  - array_contains
+  - filtering
+
+datasets:
+  - name: user_interests
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  user_interests:
+    - { column: user_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: interests, type: STRING }

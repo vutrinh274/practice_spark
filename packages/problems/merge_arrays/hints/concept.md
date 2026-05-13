@@ -1,0 +1,1 @@
+`COLLECT_LIST(DISTINCT ...)` gathers values from multiple rows into an array while deduplicating. In the DataFrame API the equivalent is `collect_set`, which automatically deduplicates. To ensure a deterministic array order, wrap the result with `array_sort`. The key insight is to first `EXPLODE` the comma-separated strings into individual rows before aggregating.

@@ -1,0 +1,29 @@
+id: ledger_reconciliation
+title: Ledger Reconciliation
+difficulty: hard
+tags:
+  - full outer join
+  - variance
+
+datasets:
+  - name: system_ledger
+    source: csv
+    path: system_ledger.csv
+    schema:
+      txn_id: int
+      amount: double
+      category: string
+  - name: bank_ledger
+    source: csv
+    path: bank_ledger.csv
+    schema:
+      txn_id: int
+      amount: double
+      category: string
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

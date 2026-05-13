@@ -1,0 +1,1 @@
+Partition by `customer_id` so each customer's purchases are processed independently, order by `purchase_date` chronologically, then use `LEAD(purchase_date, 1)` to get the next date. The last purchase per customer returns NULL.

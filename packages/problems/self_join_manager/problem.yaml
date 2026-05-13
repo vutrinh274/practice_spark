@@ -1,0 +1,35 @@
+id: self_join_manager
+title: Self Join — Find Manager
+difficulty: medium
+tags:
+  - joins
+  - self-join
+
+datasets:
+  - name: employees
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/alias.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  employees:
+    - { column: employee_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: department, type: STRING }
+    - { column: manager_id, type: INT }

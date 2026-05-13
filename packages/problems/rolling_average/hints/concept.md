@@ -1,0 +1,1 @@
+A rolling (or sliding) window aggregation computes an aggregate over a fixed-size window of rows that moves as you progress through the data. The window frame `ROWS BETWEEN 6 PRECEDING AND CURRENT ROW` captures exactly 7 rows: the current row plus 6 before it.

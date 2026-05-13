@@ -1,0 +1,31 @@
+id: customer_loyalty
+title: Customer Loyalty Score
+difficulty: hard
+tags:
+  - aggregation
+  - joins
+  - composite scoring
+
+datasets:
+  - name: orders
+    source: csv
+    path: orders.csv
+    schema:
+      order_id: int
+      customer_id: int
+      amount: int
+      order_date: string
+  - name: ratings
+    source: csv
+    path: ratings.csv
+    schema:
+      rating_id: int
+      customer_id: int
+      score: int
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

@@ -1,0 +1,1 @@
+`REGEXP_EXTRACT(str, pattern, group)` returns the captured group from the first regex match in a string. The pattern `@(.+)$` matches the `@` sign and captures everything after it until end of string. Group index `1` returns the first capture group — the domain.

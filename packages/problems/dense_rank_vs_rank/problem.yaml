@@ -1,0 +1,36 @@
+id: dense_rank_vs_rank
+title: Dense Rank vs Rank
+difficulty: medium
+tags:
+  - window functions
+  - rank
+  - dense_rank
+
+datasets:
+  - name: scores
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  scores:
+    - { column: student_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: subject, type: STRING }
+    - { column: score, type: INT }

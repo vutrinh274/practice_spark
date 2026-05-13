@@ -1,0 +1,1 @@
+Unlike `GROUP BY` which collapses rows, a window function with `PARTITION BY` computes an aggregate per group but **keeps every row**. This is exactly what you need when you want to show both individual values and a group-level statistic on the same row.

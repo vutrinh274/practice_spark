@@ -1,0 +1,21 @@
+product_id,product_name,year,total_sales
+1,Widget Alpha,2021,10000
+1,Widget Alpha,2022,12000
+1,Widget Alpha,2023,14500
+1,Widget Alpha,2024,17000
+2,Gadget Beta,2021,8000
+2,Gadget Beta,2022,7500
+2,Gadget Beta,2023,9000
+2,Gadget Beta,2024,9500
+3,Device Gamma,2021,5000
+3,Device Gamma,2022,6200
+3,Device Gamma,2023,7800
+3,Device Gamma,2024,9100
+4,Tool Delta,2021,15000
+4,Tool Delta,2022,16000
+4,Tool Delta,2023,15500
+4,Tool Delta,2024,18000
+5,Component Epsilon,2021,3000
+5,Component Epsilon,2022,3800
+5,Component Epsilon,2023,4700
+5,Component Epsilon,2024,5900

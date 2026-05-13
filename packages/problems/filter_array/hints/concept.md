@@ -1,0 +1,1 @@
+`ARRAY_CONTAINS(array, value)` returns `true` if the value exists in the array. Since the `interests` column is a plain string, you first need to convert it to an array with `SPLIT`, then apply `ARRAY_CONTAINS` on the result.

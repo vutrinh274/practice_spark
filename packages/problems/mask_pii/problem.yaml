@@ -1,0 +1,35 @@
+id: mask_pii
+title: Mask PII Data
+difficulty: medium
+tags:
+  - string functions
+  - regexp_replace
+
+datasets:
+  - name: customers
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  customers:
+    - { column: customer_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: email, type: STRING }
+    - { column: phone, type: STRING }

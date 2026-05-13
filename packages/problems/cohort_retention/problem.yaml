@@ -1,0 +1,35 @@
+id: cohort_retention
+title: Cohort Retention Analysis
+difficulty: hard
+tags:
+  - window functions
+  - date functions
+  - cohort
+
+datasets:
+  - name: user_activity
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  user_activity:
+    - { column: user_id, type: INT }
+    - { column: signup_date, type: STRING }
+    - { column: activity_date, type: STRING }

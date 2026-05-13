@@ -1,0 +1,35 @@
+id: monthly_revenue
+title: Monthly Revenue Summary
+difficulty: medium
+tags:
+  - aggregation
+  - date functions
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/date_format.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: order_date, type: STRING }
+    - { column: amount, type: INT }
+    - { column: category, type: STRING }

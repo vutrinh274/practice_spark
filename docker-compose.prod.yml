@@ -1,0 +1,50 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  spark-connect:
+    image: apache/spark:4.0.0
+    container_name: spark-connect
+    hostname: spark-connect
+    expose:
+      - "15002"  # internal only — not exposed to host
+    volumes:
+      - problems_data:/problems:rw
+    environment:
+      - SPARK_NO_DAEMONIZE=true
+    command: >
+      /opt/spark/sbin/start-connect-server.sh
+      --packages "org.apache.spark:spark-connect_2.13:4.0.0"
+      --conf "spark.driver.extraJavaOptions=-Divy.cache.dir=/tmp -Divy.home=/tmp"
+      --master "local[*]"
+      --conf spark.scheduler.mode=FAIR
+      --conf spark.connect.session.ttl=1h
+    restart: unless-stopped
+
+  api:
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-your-github-username}/spark-practice-api:latest
+    container_name: api
+    expose:
+      - "8000"  # internal only — nginx proxies to this
+    env_file:
+      - ./apps/api/.env.prod
+    volumes:
+      - db_data:/app/data
+      - problems_data:/problems:rw
+    depends_on:
+      - spark-connect
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local
+  problems_data:
+    driver: local

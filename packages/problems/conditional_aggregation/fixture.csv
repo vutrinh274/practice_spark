@@ -1,0 +1,11 @@
+order_id,customer_id,status,amount
+1,1,completed,500
+2,2,completed,800
+3,1,cancelled,300
+4,3,completed,650
+5,2,pending,900
+6,3,completed,450
+7,1,completed,700
+8,4,cancelled,200
+9,4,completed,550
+10,2,completed,600

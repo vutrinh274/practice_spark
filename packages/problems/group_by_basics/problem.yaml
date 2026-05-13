@@ -1,0 +1,33 @@
+id: group_by_basics
+title: Group By Basics
+difficulty: easy
+tags:
+  - aggregation
+  - groupby
+
+datasets:
+  - name: data
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal
+  ordered: false
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/clause.md
+  - ./hints/function.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  data:
+    - { column: customer_id, type: INT }
+    - { column: amount, type: INT }

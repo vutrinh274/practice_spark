@@ -1,0 +1,36 @@
+id: percentile_rank
+title: Percentile Rank of Sales
+difficulty: hard
+tags:
+  - window functions
+  - percent_rank
+  - ntile
+
+datasets:
+  - name: sales_reps
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  sales_reps:
+    - { column: rep_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: region, type: STRING }
+    - { column: total_sales, type: INT }

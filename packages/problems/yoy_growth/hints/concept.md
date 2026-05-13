@@ -1,0 +1,1 @@
+Year-over-year growth compares each year's value against the previous year within the same category. This requires looking back one row per category — a classic use case for `LAG()` with `PARTITION BY category ORDER BY year`.

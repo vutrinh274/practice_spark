@@ -1,0 +1,35 @@
+id: handling_nulls
+title: Handling NULLs
+difficulty: easy
+tags:
+  - null handling
+  - coalesce
+
+datasets:
+  - name: employees
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/coalesce.md
+  - ./hints/filter.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  employees:
+    - { column: employee_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: department, type: STRING }
+    - { column: salary, type: INT }

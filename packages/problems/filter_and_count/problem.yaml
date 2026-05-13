@@ -1,0 +1,37 @@
+id: filter_and_count
+title: Filter and Count
+difficulty: easy
+tags:
+  - filtering
+  - aggregation
+  - count distinct
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal
+  ordered: false
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/distinct.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: customer_id, type: INT }
+    - { column: product, type: STRING }
+    - { column: country, type: STRING }
+    - { column: amount, type: INT }

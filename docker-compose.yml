@@ -1,0 +1,44 @@
+services:
+  spark-connect:
+    image: apache/spark:4.0.0
+    container_name: spark-connect
+    hostname: spark-connect
+    ports:
+      - "4040:4040"
+      - "15002:15002"
+    volumes:
+      - ./packages/problems:/problems:rw
+    environment:
+      - SPARK_NO_DAEMONIZE=true
+    command: >
+      /opt/spark/sbin/start-connect-server.sh
+      --packages "org.apache.spark:spark-connect_2.13:4.0.0"
+      --conf "spark.driver.extraJavaOptions=-Divy.cache.dir=/tmp -Divy.home=/tmp"
+      --master "local[*]"
+      --conf spark.scheduler.mode=FAIR
+      --conf spark.connect.session.ttl=1h
+    healthcheck:
+      disable: true
+
+  api:
+    build:
+      context: ./apps/api
+    ports:
+      - "8001:8000"
+    environment:
+      - SPARK_CONNECT_URL=sc://spark-connect:15002
+      - SPARK_PROBLEMS_DIR=/problems
+    depends_on:
+      - spark-connect
+    volumes:
+      - ./packages/problems:/problems:rw
+
+  web:
+    build:
+      context: ./apps/web
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8001
+    depends_on:
+      - api

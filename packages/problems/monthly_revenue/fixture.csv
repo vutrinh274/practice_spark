@@ -1,0 +1,11 @@
+order_id,order_date,amount,category
+1,2024-01-05,1200,Electronics
+2,2024-01-15,800,Clothing
+3,2024-01-28,500,Electronics
+4,2024-02-03,950,Furniture
+5,2024-02-14,300,Clothing
+6,2024-02-22,1500,Electronics
+7,2024-03-07,600,Furniture
+8,2024-03-18,900,Electronics
+9,2024-03-25,400,Clothing
+10,2024-03-30,700,Electronics

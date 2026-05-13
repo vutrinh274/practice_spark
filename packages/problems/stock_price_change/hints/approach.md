@@ -1,0 +1,1 @@
+Partition by `stock` so each stock's rows are treated independently, and order by `price_date` so rows are in chronological sequence. `LAG(close_price, 1)` gives the previous day's price, and subtracting gives the change. The first row per partition returns `NULL` for LAG.

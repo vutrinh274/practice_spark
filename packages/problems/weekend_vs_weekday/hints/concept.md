@@ -1,0 +1,1 @@
+You need to classify each sale as a weekend or weekday based on the day of the week of its `sale_date`. Spark's `DAYOFWEEK` function returns an integer: `1` = Sunday, `2` = Monday, ..., `7` = Saturday. Use a `CASE WHEN` expression to map those values to `'Weekend'` or `'Weekday'`, then aggregate.

@@ -1,0 +1,1 @@
+Both `RANK()` and `DENSE_RANK()` assign positions to rows, but they handle ties differently. With `RANK()`, tied rows share a rank and the next rank is skipped. With `DENSE_RANK()`, tied rows share a rank but no numbers are skipped — ranks are always consecutive.

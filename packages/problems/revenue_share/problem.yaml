@@ -1,0 +1,35 @@
+id: revenue_share
+title: Revenue Share per Category
+difficulty: medium
+tags:
+  - aggregation
+  - window functions
+  - percentage
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/window.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: category, type: STRING }
+    - { column: amount, type: INT }

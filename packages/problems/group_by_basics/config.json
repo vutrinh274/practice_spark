@@ -1,0 +1,10 @@
+{
+  "title": "Group By Basics",
+  "difficulty": "easy",
+  "tags": ["aggregation", "groupby"],
+  "ordered": false,
+  "schema": [
+    { "table": "data", "column": "customer_id", "type": "INT" },
+    { "table": "data", "column": "amount", "type": "INT" }
+  ]
+}

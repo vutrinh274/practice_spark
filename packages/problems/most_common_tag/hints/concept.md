@@ -1,0 +1,1 @@
+`RANK()` is a window function that assigns the same rank to tied values but leaves gaps afterward. Here, each category gets its own ranking partition so that the tag with the highest count within that category gets rank 1. Combining `EXPLODE`/`SPLIT` with a window `RANK` is the standard Spark pattern for "top N per group" problems.

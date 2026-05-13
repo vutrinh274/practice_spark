@@ -1,0 +1,35 @@
+id: top_n_overall
+title: Top N Overall
+difficulty: easy
+tags:
+  - ordering
+  - limit
+
+datasets:
+  - name: products
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/orderby.md
+  - ./hints/limit.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  products:
+    - { column: product_id, type: INT }
+    - { column: product_name, type: STRING }
+    - { column: category, type: STRING }
+    - { column: total_sales, type: INT }

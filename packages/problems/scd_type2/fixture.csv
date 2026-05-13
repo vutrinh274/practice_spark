@@ -1,0 +1,16 @@
+record_id,employee_id,name,department,salary,effective_date
+1,101,Alice Chen,Engineering,80000,2022-01-01
+2,101,Alice Chen,Engineering,85000,2022-07-01
+3,101,Alice Chen,Data Science,90000,2023-01-01
+4,102,Bob Kim,Marketing,70000,2022-03-01
+5,102,Bob Kim,Marketing,73000,2022-09-01
+6,102,Bob Kim,Sales,75000,2023-06-01
+7,103,Carol Diaz,HR,65000,2022-01-01
+8,103,Carol Diaz,HR,67000,2023-01-01
+9,103,Carol Diaz,Operations,70000,2024-01-01
+10,104,Dan Park,Finance,72000,2022-06-01
+11,104,Dan Park,Finance,76000,2023-06-01
+12,105,Eve Russo,Engineering,78000,2022-01-01
+13,105,Eve Russo,Engineering,82000,2022-10-01
+14,105,Eve Russo,Engineering,88000,2023-07-01
+15,105,Eve Russo,Data Science,95000,2024-01-01

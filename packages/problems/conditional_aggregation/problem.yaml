@@ -1,0 +1,35 @@
+id: conditional_aggregation
+title: Conditional Aggregation
+difficulty: medium
+tags:
+  - aggregation
+  - case when
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/syntax.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: customer_id, type: INT }
+    - { column: status, type: STRING }
+    - { column: amount, type: INT }

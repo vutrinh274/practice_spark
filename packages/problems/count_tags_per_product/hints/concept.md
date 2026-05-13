@@ -1,0 +1,1 @@
+To count elements in a comma-separated string, first `SPLIT` the string into an array, then `EXPLODE` the array so each element becomes its own row. After the explode, a simple `COUNT(*)` grouped by product gives the tag count. Alternatively, `SIZE(SPLIT(...))` can count array elements directly without exploding.

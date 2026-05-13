@@ -1,0 +1,9 @@
+employee_id,name,department,manager_id
+1,Alice,Engineering,
+2,Bob,Engineering,1
+3,Charlie,Engineering,1
+4,Diana,Marketing,
+5,Eve,Marketing,4
+6,Frank,Sales,
+7,Grace,Sales,6
+8,Hank,Sales,6

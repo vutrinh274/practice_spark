@@ -1,0 +1,6 @@
+customer_id,first_name,last_name,email,city
+1,  alice  ,Smith,alice@example.com,new york
+2,BOB,johnson,BOB@EXAMPLE.COM,  London
+3,Charlie,  BROWN  ,charlie@example.com,paris
+4,diana,Williams,diana@example.com,BERLIN
+5,  EVE  ,Davis,eve@example.com,tokyo

@@ -1,0 +1,42 @@
+id: popular_product_category
+title: Most Popular Product per Category
+difficulty: medium
+tags:
+  - joins
+  - window functions
+  - ranking
+
+datasets:
+  - name: products
+    source: csv
+    path: ./products.csv
+  - name: sales
+    source: csv
+    path: ./sales.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/aggregate.md
+  - ./hints/rank.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  products:
+    - { column: product_id, type: INT }
+    - { column: product_name, type: STRING }
+    - { column: category, type: STRING }
+  sales:
+    - { column: sale_id, type: INT }
+    - { column: product_id, type: INT }
+    - { column: quantity, type: INT }

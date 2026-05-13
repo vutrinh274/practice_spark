@@ -1,0 +1,1 @@
+`COLLECT_LIST` is a Spark-specific aggregate function that gathers all values in a group into an array. Unlike standard SQL, Spark supports array-typed result columns natively. Note that `COLLECT_LIST` does not guarantee element order within the array — the order depends on the physical execution plan.

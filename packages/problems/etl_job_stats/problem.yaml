@@ -1,0 +1,39 @@
+id: etl_job_stats
+title: ETL Job Statistics
+difficulty: hard
+tags:
+  - window functions
+  - aggregation
+  - analytics
+
+datasets:
+  - name: etl_jobs
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  etl_jobs:
+    - { column: job_id, type: INT }
+    - { column: job_name, type: STRING }
+    - { column: pipeline, type: STRING }
+    - { column: start_time, type: STRING }
+    - { column: end_time, type: STRING }
+    - { column: status, type: STRING }
+    - { column: rows_processed, type: INT }

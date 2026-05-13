@@ -1,0 +1,49 @@
+id: multi_table_join
+title: Multi-Table Join
+difficulty: medium
+tags:
+  - joins
+  - aggregation
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./orders.csv
+  - name: customers
+    source: csv
+    path: ./customers.csv
+  - name: products
+    source: csv
+    path: ./products.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/joins.md
+  - ./hints/aggregate.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: customer_id, type: INT }
+    - { column: product_id, type: INT }
+    - { column: quantity, type: INT }
+  customers:
+    - { column: customer_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: city, type: STRING }
+  products:
+    - { column: product_id, type: INT }
+    - { column: product_name, type: STRING }
+    - { column: price, type: INT }

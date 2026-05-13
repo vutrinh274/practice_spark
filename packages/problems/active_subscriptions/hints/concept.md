@@ -1,0 +1,1 @@
+A subscription is active on a specific date if that date falls within its start and end range (inclusive on both ends). Since dates are stored as ISO 8601 strings (`yyyy-MM-dd`), string comparison works correctly — lexicographic order matches chronological order for this format.

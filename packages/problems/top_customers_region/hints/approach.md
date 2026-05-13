@@ -1,0 +1,1 @@
+Use `RANK() OVER (PARTITION BY region ORDER BY total_spend DESC)` to rank customers within each region. Wrap that in a CTE or subquery, then filter `WHERE rank <= 2`. Using `RANK()` means tied spends get the same rank — if two customers tie for rank 1, both are included and no rank-2 row exists.

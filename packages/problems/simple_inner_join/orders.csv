@@ -1,0 +1,7 @@
+order_id,customer_id,amount,status
+1,1,500,completed
+2,2,800,completed
+3,3,300,pending
+4,1,650,completed
+5,4,900,completed
+6,2,450,cancelled

@@ -1,0 +1,22 @@
+id: consecutive_streaks
+title: Consecutive Attendance Streaks
+difficulty: hard
+tags:
+  - window functions
+  - islands and gaps
+
+datasets:
+  - name: attendance
+    source: csv
+    path: fixture.csv
+    schema:
+      employee_id: int
+      attendance_date: string
+      status: string
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

@@ -1,0 +1,24 @@
+id: top_n_tiebreak
+title: Top N with Tie-Breaking
+difficulty: medium
+tags:
+  - window functions
+  - row_number
+  - tie-breaking
+
+datasets:
+  - name: employees
+    source: csv
+    path: fixture.csv
+    schema:
+      employee_id: int
+      name: string
+      department: string
+      salary: int
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

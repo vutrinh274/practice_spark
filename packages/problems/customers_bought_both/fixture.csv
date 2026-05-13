@@ -1,0 +1,11 @@
+order_id,customer_id,product
+1,1,Laptop
+2,2,Phone
+3,1,Phone
+4,3,Laptop
+5,4,Phone
+6,2,Tablet
+7,3,Phone
+8,5,Laptop
+9,1,Tablet
+10,4,Laptop

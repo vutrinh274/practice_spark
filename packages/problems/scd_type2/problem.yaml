@@ -1,0 +1,38 @@
+id: scd_type2
+title: Slowly Changing Dimension Type 2
+difficulty: hard
+tags:
+  - window functions
+  - scd
+  - data warehousing
+
+datasets:
+  - name: employee_history
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  employee_history:
+    - { column: record_id, type: INT }
+    - { column: employee_id, type: INT }
+    - { column: name, type: STRING }
+    - { column: department, type: STRING }
+    - { column: salary, type: INT }
+    - { column: effective_date, type: STRING }

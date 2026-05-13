@@ -1,0 +1,34 @@
+id: stock_price_change
+title: Stock Price Daily Change
+difficulty: medium
+tags:
+  - window functions
+  - lag
+
+datasets:
+  - name: stock_prices
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  stock_prices:
+    - { column: price_date, type: STRING }
+    - { column: stock, type: STRING }
+    - { column: close_price, type: DOUBLE }

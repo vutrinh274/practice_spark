@@ -1,0 +1,35 @@
+id: next_purchase_date
+title: Next Purchase Date
+difficulty: medium
+tags:
+  - window functions
+  - lead
+
+datasets:
+  - name: purchases
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  purchases:
+    - { column: purchase_id, type: INT }
+    - { column: customer_id, type: INT }
+    - { column: purchase_date, type: STRING }
+    - { column: amount, type: INT }

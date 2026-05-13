@@ -1,0 +1,11 @@
+order_id,customer_id,product,country,amount
+1,1,Laptop,USA,1200
+2,2,Phone,UK,800
+3,1,Tablet,USA,500
+4,3,Laptop,Canada,1200
+5,2,Laptop,UK,1200
+6,4,Phone,USA,800
+7,3,Tablet,Canada,500
+8,5,Laptop,USA,1200
+9,4,Phone,USA,800
+10,5,Tablet,USA,500

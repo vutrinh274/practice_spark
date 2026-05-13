@@ -1,0 +1,9 @@
+product_id,product_name,category,price
+1,Laptop,Electronics,1200
+2,Phone,Electronics,800
+3,Tablet,Electronics,500
+4,Monitor,Electronics,950
+5,Keyboard,Accessories,120
+6,Mouse,Accessories,45
+7,Headphones,Accessories,220
+8,Webcam,Accessories,90

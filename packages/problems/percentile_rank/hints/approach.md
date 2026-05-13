@@ -1,0 +1,1 @@
+Both functions use the same window: `PARTITION BY region ORDER BY total_sales DESC`. Apply them in the same SELECT clause. Note that `PERCENT_RANK()` takes no arguments — the ordering is entirely determined by the window specification.

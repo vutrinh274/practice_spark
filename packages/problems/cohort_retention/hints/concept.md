@@ -1,0 +1,1 @@
+Cohort retention analysis groups users by when they first joined (their signup cohort) and tracks how many remain active in subsequent time periods. The key insight is computing the distance in months between each activity event and the user's signup date — this gives you the "months since signup" dimension.

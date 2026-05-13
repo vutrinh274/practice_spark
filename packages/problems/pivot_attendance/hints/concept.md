@@ -1,0 +1,1 @@
+The data is in "long" format — one row per (employee, date, status). The goal is to turn it into "wide" format — one row per employee with a column for each status value. This transformation is called a **pivot**.

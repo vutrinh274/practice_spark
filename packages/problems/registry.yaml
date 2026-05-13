@@ -1,0 +1,75 @@
+version: 1
+problems:
+  # Track 1: Foundations
+  - path: ./group_by_basics
+  - path: ./find_duplicates
+  - path: ./handling_nulls
+  - path: ./filter_and_count
+  - path: ./categorize_by_price
+  - path: ./combine_tables
+  - path: ./column_arithmetic
+  - path: ./top_n_overall
+  - path: ./string_basics
+  - path: ./daily_sales
+  # Track 2: Joins
+  - path: ./simple_inner_join
+  - path: ./customers_no_orders
+  - path: ./self_join_manager
+  - path: ./full_outer_join
+  - path: ./customers_bought_both
+  - path: ./unsold_products
+  - path: ./popular_product_category
+  - path: ./multi_table_join
+  # Track 3: Aggregation Deep Dive
+  - path: ./monthly_revenue
+  - path: ./revenue_share
+  - path: ./conditional_aggregation
+  - path: ./count_distinct_day
+  - path: ./first_last_event
+  - path: ./pivot_attendance
+  - path: ./customers_above_avg
+  - path: ./remove_outliers
+  # Track 4: Window Functions
+  - path: ./top_n_per_group
+  - path: ./running_total
+  - path: ./stock_price_change
+  - path: ./next_purchase_date
+  - path: ./rolling_average
+  - path: ./salary_vs_dept_avg
+  - path: ./percentile_rank
+  - path: ./dense_rank_vs_rank
+  - path: ./yoy_growth
+  - path: ./top_customers_region
+  # Track 5: Date & Time
+  - path: ./monthly_active_users
+  - path: ./weekend_vs_weekday
+  - path: ./days_between_events
+  - path: ./active_subscriptions
+  - path: ./late_deliveries
+  # Track 6: Arrays & Structs
+  - path: ./aggregate_tags
+  - path: ./explode_tags
+  - path: ./count_tags_per_product
+  - path: ./filter_array
+  - path: ./most_common_tag
+  - path: ./merge_arrays
+  # Track 7: String & Regex
+  - path: ./extract_email_domain
+  - path: ./mask_pii
+  - path: ./split_count_words
+  - path: ./standardize_phones
+  # Track 8: Advanced Patterns
+  - path: ./sessionize_clickstream
+  - path: ./consecutive_streaks
+  - path: ./funnel_analysis
+  - path: ./customer_loyalty
+  - path: ./tally_election
+  - path: ./ledger_reconciliation
+  - path: ./top_n_tiebreak
+  # Missing curriculum problems
+  - path: ./cohort_retention
+  - path: ./parse_json_column
+  - path: ./flatten_structs
+  - path: ./etl_job_stats
+  - path: ./increasing_yoy_sales
+  - path: ./scd_type2

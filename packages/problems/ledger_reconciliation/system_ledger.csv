@@ -1,0 +1,11 @@
+txn_id,amount,category
+1001,250.00,payroll
+1002,80.50,utilities
+1003,1200.00,rent
+1004,45.00,office_supplies
+1005,320.75,software
+1006,150.00,travel
+1007,90.00,marketing
+1008,500.00,equipment
+1009,60.00,utilities
+1010,275.00,consulting

@@ -1,0 +1,1 @@
+Group by `user_id` and use aggregate functions to find the chronological boundaries of each user's activity. Since dates are stored as strings in ISO format (YYYY-MM-DD), lexicographic MIN/MAX gives correct chronological order.

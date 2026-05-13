@@ -1,0 +1,9 @@
+product_id,product_name,price,quantity,discount_pct
+1,Laptop,1200,5,10
+2,Phone,800,12,15
+3,Tablet,500,8,5
+4,Monitor,950,3,20
+5,Keyboard,120,25,0
+6,Mouse,45,30,10
+7,Headphones,220,15,25
+8,Webcam,90,20,5

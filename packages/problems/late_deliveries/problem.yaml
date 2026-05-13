@@ -1,0 +1,37 @@
+id: late_deliveries
+title: Late Deliveries
+difficulty: medium
+tags:
+  - date functions
+  - datediff
+  - filtering
+
+datasets:
+  - name: orders
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  orders:
+    - { column: order_id, type: INT }
+    - { column: customer_id, type: INT }
+    - { column: order_date, type: STRING }
+    - { column: delivery_date, type: STRING }
+    - { column: promised_days, type: INT }

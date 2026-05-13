@@ -1,0 +1,34 @@
+id: count_tags_per_product
+title: Count Tags per Product
+difficulty: medium
+tags:
+  - explode
+  - groupby
+
+datasets:
+  - name: products
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  products:
+    - { column: product_id, type: INT }
+    - { column: product_name, type: STRING }
+    - { column: tags, type: STRING }

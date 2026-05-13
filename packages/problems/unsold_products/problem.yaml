@@ -1,0 +1,43 @@
+id: unsold_products
+title: Unsold Products
+difficulty: medium
+tags:
+  - joins
+  - anti-join
+
+datasets:
+  - name: products
+    source: csv
+    path: ./products.csv
+  - name: sales
+    source: csv
+    path: ./sales.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  products:
+    - { column: product_id, type: INT }
+    - { column: product_name, type: STRING }
+    - { column: category, type: STRING }
+    - { column: price, type: INT }
+  sales:
+    - { column: sale_id, type: INT }
+    - { column: product_id, type: INT }
+    - { column: quantity, type: INT }
+    - { column: sale_date, type: STRING }

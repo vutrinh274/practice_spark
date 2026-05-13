@@ -1,0 +1,1 @@
+The data is in a long format — each event is a separate row. To compute the difference between two events for the same user, you need to bring both dates onto the same row. You can do this with a self-join, conditional aggregation (`MAX(CASE WHEN ...)`), or a pivot. Once both dates are on the same row, use `DATEDIFF` to subtract them.

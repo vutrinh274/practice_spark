@@ -1,0 +1,16 @@
+employee_id,attendance_date,status
+1,2024-01-01,Present
+1,2024-01-02,Present
+1,2024-01-03,Late
+1,2024-01-04,Absent
+2,2024-01-01,Absent
+2,2024-01-02,Present
+2,2024-01-03,Present
+2,2024-01-04,Late
+3,2024-01-01,Late
+3,2024-01-02,Absent
+3,2024-01-03,Present
+3,2024-01-04,Present
+4,2024-01-01,Present
+4,2024-01-02,Late
+4,2024-01-03,Absent

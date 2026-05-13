@@ -1,0 +1,1 @@
+Year-over-year growth analysis identifies trends in time-series data. Using the LAG window function, you can compare each year's value to the previous year within the same product partition. A product qualifies as "consistently growing" only if every single YoY comparison is positive — even one flat or declining year disqualifies it.

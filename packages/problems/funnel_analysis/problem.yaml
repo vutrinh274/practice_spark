@@ -1,0 +1,24 @@
+id: funnel_analysis
+title: Funnel Analysis
+difficulty: hard
+tags:
+  - window functions
+  - ordered events
+  - aggregation
+
+datasets:
+  - name: user_events
+    source: csv
+    path: fixture.csv
+    schema:
+      event_id: int
+      user_id: int
+      event_type: string
+      event_date: string
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

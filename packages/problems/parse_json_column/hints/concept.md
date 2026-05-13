@@ -1,0 +1,1 @@
+When data arrives with a JSON string packed into a single column, you need to parse it before you can use individual fields. Spark provides `GET_JSON_OBJECT` in SQL and `from_json` in the DataFrame API — both let you pull structured values out of a raw JSON string without modifying the source data.

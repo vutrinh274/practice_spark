@@ -1,0 +1,1 @@
+`PERCENT_RANK()` returns a value between 0 and 1 representing the relative position of a row within its partition: `(rank - 1) / (total_rows - 1)`. `NTILE(4)` divides the partition into 4 equal buckets (quartiles) and assigns each row to a bucket.

@@ -1,0 +1,13 @@
+article_id,title,category,tags
+1,Introduction to Spark,Data Engineering,"spark,big-data,distributed"
+2,Python for Data Science,Machine Learning,"python,data-science,ml"
+3,Deep Learning Basics,Machine Learning,"ml,deep-learning,python"
+4,Spark Streaming Guide,Data Engineering,"spark,streaming,big-data"
+5,SQL vs NoSQL,Data Engineering,"sql,databases,big-data"
+6,Kubernetes for Beginners,DevOps,"kubernetes,devops,cloud"
+7,Feature Engineering,Machine Learning,"ml,python,data-science"
+8,Real-time Analytics,Data Engineering,"spark,streaming,sql"
+9,Data Pipelines with Airflow,Data Engineering,"python,airflow,big-data"
+10,NLP with Transformers,Machine Learning,"ml,deep-learning,python"
+11,Cloud Data Warehouses,DevOps,"cloud,sql,databases"
+12,Graph Analytics,Data Engineering,"spark,graphs,big-data"

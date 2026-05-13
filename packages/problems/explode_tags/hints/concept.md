@@ -1,0 +1,1 @@
+`EXPLODE` is a table-generating function (also called a lateral view in some dialects). It takes an array and produces one output row per element. Combined with `SPLIT`, which converts a delimited string into an array, you can normalize a denormalized comma-separated column into a proper one-row-per-value structure.

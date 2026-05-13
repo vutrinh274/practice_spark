@@ -1,0 +1,11 @@
+user_id,purchase_date,items
+1,2024-01-05,"laptop,mouse,keyboard"
+1,2024-01-20,"monitor,keyboard"
+2,2024-01-08,"phone,case"
+2,2024-01-15,"earbuds,phone,charger"
+3,2024-01-03,"tablet,stylus"
+3,2024-01-18,"tablet,keyboard,mouse"
+4,2024-01-10,"camera,lens"
+4,2024-01-22,"tripod,camera,bag"
+5,2024-01-07,"headphones,cable"
+5,2024-01-25,"headphones,amplifier"

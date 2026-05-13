@@ -1,0 +1,1 @@
+The "top N per group" pattern requires two steps: first assign a rank within each group using a window function, then filter to keep only rows where rank <= N. You cannot filter on a window function result in the same SELECT — use a subquery or CTE.

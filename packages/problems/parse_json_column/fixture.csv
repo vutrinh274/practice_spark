@@ -1,0 +1,12 @@
+event_id,user_id,event_type,properties
+1,101,page_view,"{""page"":""home"",""duration"":30,""referrer"":""google""}"
+2,102,page_view,"{""page"":""about"",""duration"":15,""referrer"":""direct""}"
+3,101,click,"{""page"":""home"",""duration"":5,""referrer"":""google""}"
+4,103,page_view,"{""page"":""pricing"",""duration"":45,""referrer"":""twitter""}"
+5,102,purchase,"{""page"":""checkout"",""duration"":120,""referrer"":""email""}"
+6,104,page_view,"{""page"":""home"",""duration"":20,""referrer"":""facebook""}"
+7,101,page_view,"{""page"":""blog"",""duration"":60,""referrer"":""organic""}"
+8,103,click,"{""page"":""pricing"",""duration"":8,""referrer"":""twitter""}"
+9,104,purchase,"{""page"":""checkout"",""duration"":90,""referrer"":""facebook""}"
+10,102,page_view,"{""page"":""home"",""duration"":25,""referrer"":""direct""}"
+

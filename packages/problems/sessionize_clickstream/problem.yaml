@@ -1,0 +1,24 @@
+id: sessionize_clickstream
+title: Sessionize Clickstream Data
+difficulty: hard
+tags:
+  - window functions
+  - session
+  - lag
+
+datasets:
+  - name: clickstream
+    source: csv
+    path: fixture.csv
+    schema:
+      event_id: int
+      user_id: int
+      page: string
+      event_time: string
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

@@ -1,0 +1,16 @@
+customer_id,name,region,total_spend
+1,Alice,North,4500
+2,Bob,North,7200
+3,Carol,North,3100
+4,Dave,North,8900
+5,Eve,North,6300
+6,Frank,South,5500
+7,Grace,South,9100
+8,Hank,South,4200
+9,Iris,South,7800
+10,Jack,South,3600
+11,Karen,West,6100
+12,Leo,West,8400
+13,Mia,West,5200
+14,Noah,West,9500
+15,Olivia,West,4800

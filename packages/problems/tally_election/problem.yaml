@@ -1,0 +1,24 @@
+id: tally_election
+title: Tally Election Results
+difficulty: hard
+tags:
+  - aggregation
+  - ranking
+  - dense_rank
+
+datasets:
+  - name: votes
+    source: csv
+    path: fixture.csv
+    schema:
+      vote_id: int
+      voter_id: int
+      candidate: string
+      district: string
+
+validation:
+  method: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+expected_output: expected.csv

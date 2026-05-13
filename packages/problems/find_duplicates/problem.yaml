@@ -1,0 +1,35 @@
+id: find_duplicates
+title: Find Duplicate Emails
+difficulty: easy
+tags:
+  - aggregation
+  - groupby
+  - filtering
+
+datasets:
+  - name: users
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/groupby.md
+  - ./hints/having.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  users:
+    - { column: email, type: STRING }
+    - { column: name, type: STRING }
+    - { column: signup_date, type: STRING }
