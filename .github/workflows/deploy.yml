@@ -46,6 +46,9 @@ jobs:
           script: |
             cd ~/practice_spark
             git pull origin main
+            # Ensure system nginx doesn't conflict with Docker nginx
+            systemctl stop nginx 2>/dev/null || true
+            systemctl disable nginx 2>/dev/null || true
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             export IMAGE_TAG=${{ github.sha }}
             envsubst < docker-compose.prod.yml | docker compose -f - pull
