@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-your-github-username}/spark-practice-api:latest
+    image: ghcr.io/vutrinh274/spark-practice-api:${IMAGE_TAG:-latest}
     container_name: api
     expose:
       - "8000"  # internal only — nginx proxies to this
