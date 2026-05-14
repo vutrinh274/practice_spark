@@ -83,6 +83,14 @@ seed:
 		cd $$problem && ../../../apps/api/.venv/bin/python reference.py && cd ../../..; \
 	done
 
+seed-docker:
+	@for problem in $$(ls packages/problems/); do \
+		if [ -f "packages/problems/$$problem/reference.py" ]; then \
+			echo "Seeding $$problem..."; \
+			docker exec api python /problems/$$problem/reference.py; \
+		fi \
+	done
+
 docker-full:
 	docker compose up -d --build
 

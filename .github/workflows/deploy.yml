@@ -54,7 +54,7 @@ jobs:
             envsubst < docker-compose.prod.yml > docker-compose.resolved.yml
             docker compose -f docker-compose.resolved.yml pull
             docker compose -f docker-compose.resolved.yml up -d
-            make seed
+            make seed-docker
             docker image prune -f
         env:
           IMAGE_TAG: ${{ github.sha }}
