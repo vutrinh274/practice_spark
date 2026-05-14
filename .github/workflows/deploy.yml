@@ -44,6 +44,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            export PATH="$HOME/.local/bin:$PATH"
             cd ~/practice_spark
             git pull origin main
             # Ensure system nginx doesn't conflict with Docker nginx
@@ -54,7 +55,7 @@ jobs:
             envsubst < docker-compose.prod.yml > docker-compose.resolved.yml
             docker compose -f docker-compose.resolved.yml pull
             docker compose -f docker-compose.resolved.yml up -d
-            make seed-docker
+            make seed
             docker image prune -f
         env:
           IMAGE_TAG: ${{ github.sha }}

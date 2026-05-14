@@ -1,11 +1,21 @@
 services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.local.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    restart: unless-stopped
+
   spark-connect:
     image: apache/spark:4.0.0
     container_name: spark-connect
     hostname: spark-connect
-    ports:
-      - "4040:4040"
-      - "15002:15002"
+    expose:
+      - "15002"
     volumes:
       - ./packages/problems:/problems:rw
     environment:
@@ -23,22 +33,22 @@ services:
   api:
     build:
       context: ./apps/api
-    ports:
-      - "8001:8000"
+    container_name: api
+    expose:
+      - "8000"
     environment:
       - SPARK_CONNECT_URL=sc://spark-connect:15002
       - SPARK_PROBLEMS_DIR=/problems
-    depends_on:
-      - spark-connect
+      - PROBLEMS_DIR=/problems
+      - DB_PATH=/app/data/spark_practice.db
     volumes:
+      - db_data:/app/data
       - ./packages/problems:/problems:rw
 
-  web:
-    build:
-      context: ./apps/web
-    ports:
-      - "3001:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8001
     depends_on:
-      - api
+      - spark-connect
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local
