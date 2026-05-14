@@ -28,9 +28,8 @@ ufw allow 443/tcp
 ufw --force enable
 
 # 6. Clone repo
-mkdir -p ~/practice_spark
+git clone https://github.com/vutrinh274/practice_spark.git ~/practice_spark
 cd ~/practice_spark
-git clone https://github.com/vutrinh274/practice_spark.git .
 
 # 7. Install Python dependencies
 cd apps/api && uv sync && cd ../..
