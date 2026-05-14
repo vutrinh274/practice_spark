@@ -16,8 +16,8 @@ services:
     image: apache/spark:4.0.0
     container_name: spark-connect
     hostname: spark-connect
-    expose:
-      - "15002"  # internal only — not exposed to host
+    ports:
+      - "15002:15002"  # exposed for make seed from host
     volumes:
       - ./packages/problems:/problems:rw
     environment:
