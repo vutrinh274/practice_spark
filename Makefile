@@ -4,9 +4,6 @@ install:
 spark:
 	docker compose up -d spark-connect
 
-dev: spark
-	@echo "Spark Connect running. Start API and web with: make api && make web"
-
 api:
 	cd apps/api && PROBLEMS_DIR=../../packages/problems SPARK_PROBLEMS_DIR=/problems uv run uvicorn main:app --reload --port 8000
 
@@ -83,14 +80,6 @@ seed:
 		cd $$problem && ../../../apps/api/.venv/bin/python reference.py && cd ../../..; \
 	done
 
-seed-docker:
-	@for problem in $$(ls packages/problems/); do \
-		if [ -f "packages/problems/$$problem/reference.py" ]; then \
-			echo "Seeding $$problem..."; \
-			docker exec api python /problems/$$problem/reference.py; \
-		fi \
-	done
-
 docker-full:
 	docker compose up -d --build
 
@@ -100,18 +89,6 @@ validate:
 # ── Production ────────────────────────────────────────────────────────────────
 
 SERVER ?= root@YOUR_SERVER_IP
-
-prod:
-	docker compose -f docker-compose.prod.yml up -d
-
-prod-build:
-	docker compose -f docker-compose.prod.yml up -d --build api
-
-deploy:
-	ssh $(SERVER) "cd ~/practice_spark && git pull && docker compose -f docker-compose.prod.yml up -d --build api"
-
-seed-prod:
-	ssh $(SERVER) "cd ~/practice_spark && make seed"
 
 backup-db:
 	ssh $(SERVER) "docker exec api sqlite3 /app/data/spark_practice.db .dump" > backups/backup_$(shell date +%Y%m%d_%H%M).sql
@@ -124,4 +101,4 @@ restore-db:
 logs:
 	ssh $(SERVER) "docker compose -f docker-compose.prod.yml logs -f api"
 
-.PHONY: install spark dev api web seed docker-full validate prod prod-build deploy seed-prod backup-db restore-db logs
+.PHONY: install spark api web seed docker-full validate backup-db restore-db logs

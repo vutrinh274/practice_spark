@@ -3,6 +3,14 @@ name: Deploy
 on:
   push:
     branches: [main]
+    paths:
+      - 'apps/api/**'
+      - 'packages/problems/**/fixture*.csv'
+      - 'packages/problems/**/problem.yaml'
+      - 'packages/problems/**/reference.py'
+      - 'packages/problems/registry.yaml'
+      - 'docker-compose.prod.yml'
+      - 'nginx/nginx.conf'
 
 env:
   REGISTRY: ghcr.io
