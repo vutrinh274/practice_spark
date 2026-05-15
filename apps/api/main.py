@@ -348,3 +348,4 @@ async def trigger_sync(request: Request, api_key: str = Security(_admin_key_head
     await loop.run_in_executor(None, sync_subscribers)
     return {"status": "sync complete"}
 
+
