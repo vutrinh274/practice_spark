@@ -55,6 +55,7 @@ jobs:
             export PATH="$HOME/.local/bin:$PATH"
             cd ~/practice_spark
             git pull origin main
+            echo "${{ secrets.ENV_PROD }}" > apps/api/.env.prod
             # Ensure system nginx doesn't conflict with Docker nginx
             systemctl stop nginx 2>/dev/null || true
             systemctl disable nginx 2>/dev/null || true
