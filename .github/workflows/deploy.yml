@@ -63,7 +63,7 @@ jobs:
             export IMAGE_TAG=${{ github.sha }}
             envsubst < docker-compose.prod.yml > docker-compose.resolved.yml
             docker compose -f docker-compose.resolved.yml pull
-            docker compose -f docker-compose.resolved.yml up -d
+            docker compose -f docker-compose.resolved.yml up -d --force-recreate api nginx
             make seed
             docker image prune -f
         env:
