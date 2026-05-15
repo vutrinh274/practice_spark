@@ -1,11 +1,12 @@
 install:
 	cd apps/api && uv sync
+	cd apps/web && npm install
 
 spark:
 	docker compose up -d spark-connect
 
 api:
-	cd apps/api && PROBLEMS_DIR=../../packages/problems SPARK_PROBLEMS_DIR=/problems uv run uvicorn main:app --reload --port 8000
+	cd apps/api && uv run uvicorn main:app --reload --port 8000
 
 web:
 	cd apps/web && npm run dev

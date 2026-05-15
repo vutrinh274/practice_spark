@@ -27,11 +27,8 @@ A web-based platform for practicing Apache Spark SQL and DataFrame API — built
 ### Setup
 
 ```bash
-# 1. Install Python dependencies
+# Install all dependencies (Python + Node)
 make install
-
-# 2. Install frontend dependencies
-cd apps/web && npm install && cd ../..
 ```
 
 ### Running locally
@@ -54,18 +51,34 @@ Open `http://localhost:3000`
 
 ### Environment variables
 
-The API reads env vars from the shell when running locally. Key vars are set inline in the `make api` command:
+Both files are gitignored — contact the repo owner to get the values.
 
-```
-SPARK_CONNECT_URL=sc://localhost:15002
-SPARK_PROBLEMS_DIR=/problems
-PROBLEMS_DIR=../../packages/problems
+**API** — create `apps/api/.env`:
+
+```bash
+cp apps/api/.env.prod.example apps/api/.env
 ```
 
-For Clerk auth locally, you need `.env.local` in `apps/web/`:
-```
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-```
+| Variable | Purpose |
+|---|---|
+| `SPARK_CONNECT_URL` | gRPC endpoint for Spark Connect (local: `sc://localhost:15002`) |
+| `SPARK_PROBLEMS_DIR` | Path to problems dir as seen by Spark container (`/problems`) |
+| `PROBLEMS_DIR` | Path to problems dir on host machine (`../../packages/problems`) |
+| `CLERK_SECRET_KEY` | Clerk backend secret — from Clerk dashboard (use Development key locally) |
+| `ADMIN_SECRET_KEY` | Secret for admin endpoints (`/admin/subscribers` etc.) |
+| `STRIPE_SECRET_KEY` | Stripe secret for subscriber sync (use test key locally) |
+| `STRIPE_SYNC_INTERVAL_MINUTES` | How often to sync Stripe subscribers (default: 5) |
+
+**Frontend** — create `apps/web/.env.local`:
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk frontend key — from Clerk dashboard (use Development key locally) |
+| `NEXT_PUBLIC_API_URL` | Backend API URL (local: `http://localhost:8000`) |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | Sign-in page path (`/sign-in`) |
+| `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | Sign-up page path (`/sign-up`) |
+| `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` | Redirect after sign-in (`/problems`) |
+| `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` | Redirect after sign-up (`/problems`) |
 
 ### Useful commands
 
