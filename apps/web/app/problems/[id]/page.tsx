@@ -73,6 +73,7 @@ const DESC_WIDTH_MIN = 300;
 const DESC_WIDTH_MAX = 900;
 
 const AUTOCOMPLETE_KEY = "spark_practice_autocomplete";
+const LIVE_VALIDATION_KEY = "spark_practice_live_validation";
 
 function storageKey(problemId: string, mode: string) {
   return `spark_practice_${problemId}_${mode}`;
@@ -162,6 +163,12 @@ export default function ProblemPage() {
     if (typeof window === "undefined") return true;
     return localStorage.getItem(AUTOCOMPLETE_KEY) !== "off";
   });
+  const [liveValidationOn, setLiveValidationOn] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem(LIVE_VALIDATION_KEY) !== "off";
+  });
+  const liveValidationRef = useRef(liveValidationOn);
+  useEffect(() => { liveValidationRef.current = liveValidationOn; }, [liveValidationOn]);
 
   useEffect(() => {
     Promise.all([
@@ -210,6 +217,31 @@ export default function ProblemPage() {
     setAutocompleteOn((prev) => {
       const next = !prev;
       try { localStorage.setItem(AUTOCOMPLETE_KEY, next ? "on" : "off"); } catch {}
+      return next;
+    });
+  };
+
+  // When live validation is turned off, cancel any pending check,
+  // clear the banner, and remove existing squiggles.
+  useEffect(() => {
+    if (liveValidationOn) return;
+    if (sqlValidationTimer.current) {
+      clearTimeout(sqlValidationTimer.current);
+      sqlValidationTimer.current = null;
+    }
+    setSyntaxError(null);
+    const monaco = monacoRef.current;
+    const model = editorRef.current?.getModel();
+    if (monaco && model) {
+      monaco.editor.setModelMarkers(model, "sql-parser", []);
+      monaco.editor.setModelMarkers(model, "python-parser", []);
+    }
+  }, [liveValidationOn]);
+
+  const toggleLiveValidation = () => {
+    setLiveValidationOn((prev) => {
+      const next = !prev;
+      try { localStorage.setItem(LIVE_VALIDATION_KEY, next ? "on" : "off"); } catch {}
       return next;
     });
   };
@@ -636,6 +668,17 @@ export default function ProblemPage() {
                   />
                   <span className={autocompleteOn ? "" : "line-through text-gray-400"}>Autocomplete</span>
                 </button>
+                <button
+                  onClick={toggleLiveValidation}
+                  title={liveValidationOn ? "Live error check on — click to turn off" : "Live error check off — click to turn on"}
+                  className="text-xs px-2 py-1 rounded font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors hidden sm:flex items-center gap-1.5"
+                >
+                  <span
+                    aria-hidden
+                    className={`inline-block w-2 h-2 rounded-full ${liveValidationOn ? "bg-emerald-500" : "bg-gray-300"}`}
+                  />
+                  <span className={liveValidationOn ? "" : "line-through text-gray-400"}>Live errors</span>
+                </button>
                 <span className="text-xs text-gray-300 hidden sm:block">⌘↵</span>
                 <button
                   onClick={handleSubmit}
@@ -688,6 +731,7 @@ export default function ProblemPage() {
                   const newCode = v ?? "";
                   setCode(newCode);
                   saveCode(id, mode, newCode);
+                  if (!liveValidationRef.current) return;
                   if (mode === "sql" && monacoRef.current) {
                     if (sqlValidationTimer.current) clearTimeout(sqlValidationTimer.current);
                     const monaco = monacoRef.current;
