@@ -1,0 +1,36 @@
+id: scd_type2_modelling
+title: Slowly Changing Dimension Type 2 Modelling
+difficulty: hard
+tags:
+  - window functions
+  - scd
+  - data modelling
+
+datasets:
+  - name: players
+    source: csv
+    path: ./fixture.csv
+
+validation:
+  strategy: dataframe_equal_ordered
+  ordered: true
+  type_coerce: true
+
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
+
+schema:
+  players:
+    - { column: player_name, type: STRING }
+    - { column: scoring_class, type: STRING }
+    - { column: is_active, type: BOOLEAN }
+    - { column: season, type: INT }
