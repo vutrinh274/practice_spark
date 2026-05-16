@@ -67,6 +67,11 @@ interface Result {
 
 const SQL_PLACEHOLDER = "-- Write your Spark SQL query here\nSELECT *\nFROM data\nLIMIT 10";
 
+const DESC_WIDTH_KEY = "spark_practice_desc_width";
+const DESC_WIDTH_DEFAULT = 420;
+const DESC_WIDTH_MIN = 300;
+const DESC_WIDTH_MAX = 900;
+
 function storageKey(problemId: string, mode: string) {
   return `spark_practice_${problemId}_${mode}`;
 }
@@ -144,6 +149,13 @@ export default function ProblemPage() {
   const monacoRef = useRef<typeof import("monaco-editor") | null>(null);
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const sqlValidationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [descWidth, setDescWidth] = useState<number>(() => {
+    if (typeof window === "undefined") return DESC_WIDTH_DEFAULT;
+    const saved = Number(localStorage.getItem(DESC_WIDTH_KEY));
+    return saved >= DESC_WIDTH_MIN && saved <= DESC_WIDTH_MAX ? saved : DESC_WIDTH_DEFAULT;
+  });
+  const descWidthRef = useRef(descWidth);
+  useEffect(() => { descWidthRef.current = descWidth; }, [descWidth]);
 
   useEffect(() => {
     Promise.all([
@@ -328,7 +340,10 @@ export default function ProblemPage() {
 
       <div className="flex flex-1 overflow-hidden gap-1.5 p-1.5">
         {/* Left — problem panel */}
-        <div className="w-[420px] shrink-0 bg-white rounded-lg border border-gray-200 flex flex-col overflow-hidden">
+        <div
+          className="shrink-0 bg-white rounded-lg border border-gray-200 flex flex-col overflow-hidden"
+          style={{ width: descWidth }}
+        >
           <div className="flex border-b border-gray-100 px-4 gap-4">
             <button className="text-xs font-medium text-gray-900 py-3 border-b-2 border-gray-900 -mb-px">
               Description
@@ -513,6 +528,44 @@ export default function ProblemPage() {
             )}
           </div>
 
+        </div>
+
+        {/* Vertical resizer between description and editor */}
+        <div
+          className="w-2 flex items-center justify-center cursor-col-resize group shrink-0"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            const startX = e.clientX;
+            const startWidth = descWidth;
+            let rafId = 0;
+            const onMove = (ev: MouseEvent) => {
+              cancelAnimationFrame(rafId);
+              rafId = requestAnimationFrame(() => {
+                const next = Math.min(
+                  Math.max(startWidth + (ev.clientX - startX), DESC_WIDTH_MIN),
+                  DESC_WIDTH_MAX,
+                );
+                setDescWidth(next);
+              });
+            };
+            const onUp = () => {
+              cancelAnimationFrame(rafId);
+              window.removeEventListener("mousemove", onMove);
+              window.removeEventListener("mouseup", onUp);
+              try {
+                localStorage.setItem(DESC_WIDTH_KEY, String(descWidthRef.current));
+              } catch {}
+            };
+            window.addEventListener("mousemove", onMove);
+            window.addEventListener("mouseup", onUp);
+          }}
+          onDoubleClick={() => {
+            setDescWidth(DESC_WIDTH_DEFAULT);
+            try { localStorage.setItem(DESC_WIDTH_KEY, String(DESC_WIDTH_DEFAULT)); } catch {}
+          }}
+          title="Drag to resize · double-click to reset"
+        >
+          <div className="w-1 h-8 rounded-full bg-gray-200 group-hover:bg-gray-400 transition-colors" />
         </div>
 
         {/* Right — editor + result panels */}
