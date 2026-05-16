@@ -56,14 +56,17 @@ Both files are gitignored — contact the repo owner to get the values.
 **API** — create `apps/api/.env`:
 
 ```bash
-cp apps/api/.env.prod.example apps/api/.env
+cp apps/api/.env.example apps/api/.env
 ```
+
+> `.env.example` is the **local-dev** template (host paths, `sc://localhost:15002`, test-key placeholders). `.env.prod.example` is the **production** template for the Docker stack — don't use it for local dev.
 
 | Variable | Purpose |
 |---|---|
 | `SPARK_CONNECT_URL` | gRPC endpoint for Spark Connect (local: `sc://localhost:15002`) |
 | `SPARK_PROBLEMS_DIR` | Path to problems dir as seen by Spark container (`/problems`) |
 | `PROBLEMS_DIR` | Path to problems dir on host machine (`../../packages/problems`) |
+| `DB_PATH` | SQLite DB file path (local: `spark_practice.db`, relative to `apps/api/`) |
 | `CLERK_SECRET_KEY` | Clerk backend secret — from Clerk dashboard (use Development key locally) |
 | `ADMIN_SECRET_KEY` | Secret for admin endpoints (`/admin/subscribers` etc.) |
 | `STRIPE_SECRET_KEY` | Stripe secret for subscriber sync (use test key locally) |
@@ -140,6 +143,7 @@ solutions/      # sql.md, dataframe.md
 ```
 
 After authoring:
+
 1. Register in `packages/problems/registry.yaml`
 2. Add to `make seed` list in `Makefile`
 3. Run `make seed` to generate `expected.csv`
@@ -187,6 +191,7 @@ GitHub Actions (.github/workflows/deploy.yml)
 ```
 
 Files that trigger backend deploy:
+
 - `apps/api/**`
 - `packages/problems/**/fixture*.csv`
 - `packages/problems/**/problem.yaml`
