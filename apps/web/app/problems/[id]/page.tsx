@@ -72,6 +72,8 @@ const DESC_WIDTH_DEFAULT = 420;
 const DESC_WIDTH_MIN = 300;
 const DESC_WIDTH_MAX = 900;
 
+const AUTOCOMPLETE_KEY = "spark_practice_autocomplete";
+
 function storageKey(problemId: string, mode: string) {
   return `spark_practice_${problemId}_${mode}`;
 }
@@ -156,6 +158,10 @@ export default function ProblemPage() {
   });
   const descWidthRef = useRef(descWidth);
   useEffect(() => { descWidthRef.current = descWidth; }, [descWidth]);
+  const [autocompleteOn, setAutocompleteOn] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem(AUTOCOMPLETE_KEY) !== "off";
+  });
 
   useEffect(() => {
     Promise.all([
@@ -175,14 +181,38 @@ export default function ProblemPage() {
   // Register completions once both editor and schema are available
   useEffect(() => {
     if (!problem?.schema || !monacoRef.current) return;
+    sqlCompletionDisposable.current?.dispose();
+    dfCompletionDisposable.current?.dispose();
+    sqlCompletionDisposable.current = null;
+    dfCompletionDisposable.current = null;
+    if (!autocompleteOn) return;
     const flatSchema: SchemaColumn[] = Object.entries(problem.schema).flatMap(
       ([table, cols]) => cols.map((c) => ({ ...c, table }))
     );
-    sqlCompletionDisposable.current?.dispose();
-    dfCompletionDisposable.current?.dispose();
     sqlCompletionDisposable.current = registerSparkSqlCompletions(monacoRef.current, flatSchema);
     dfCompletionDisposable.current = registerSparkDataframeCompletions(monacoRef.current, flatSchema);
-  }, [problem?.schema, monacoRef.current]);
+  }, [problem?.schema, monacoRef.current, autocompleteOn]);
+
+  // Reflect autocomplete state in Monaco editor options
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    editor.updateOptions({
+      quickSuggestions: autocompleteOn,
+      suggestOnTriggerCharacters: autocompleteOn,
+      wordBasedSuggestions: autocompleteOn ? "currentDocument" : "off",
+      parameterHints: { enabled: autocompleteOn },
+      inlineSuggest: { enabled: autocompleteOn },
+    });
+  }, [autocompleteOn]);
+
+  const toggleAutocomplete = () => {
+    setAutocompleteOn((prev) => {
+      const next = !prev;
+      try { localStorage.setItem(AUTOCOMPLETE_KEY, next ? "on" : "off"); } catch {}
+      return next;
+    });
+  };
 
   const handleModeChange = (m: Mode) => {
     setMode(m);
@@ -595,6 +625,17 @@ export default function ProblemPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleAutocomplete}
+                  title={autocompleteOn ? "Autocomplete on — click to turn off" : "Autocomplete off — click to turn on"}
+                  className="text-xs px-2 py-1 rounded font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors hidden sm:flex items-center gap-1.5"
+                >
+                  <span
+                    aria-hidden
+                    className={`inline-block w-2 h-2 rounded-full ${autocompleteOn ? "bg-emerald-500" : "bg-gray-300"}`}
+                  />
+                  <span className={autocompleteOn ? "" : "line-through text-gray-400"}>Autocomplete</span>
+                </button>
                 <span className="text-xs text-gray-300 hidden sm:block">⌘↵</span>
                 <button
                   onClick={handleSubmit}
@@ -689,7 +730,7 @@ export default function ProblemPage() {
                     () => { handleSubmit(); }
                   );
 
-                  if (problem?.schema) {
+                  if (problem?.schema && autocompleteOn) {
                     const flatSchema: SchemaColumn[] = Object.entries(problem.schema).flatMap(
                       ([table, cols]) => cols.map((c) => ({ ...c, table }))
                     );
@@ -698,6 +739,15 @@ export default function ProblemPage() {
                     sqlCompletionDisposable.current = registerSparkSqlCompletions(monaco, flatSchema);
                     dfCompletionDisposable.current = registerSparkDataframeCompletions(monaco, flatSchema);
                   }
+
+                  // Apply initial autocomplete preference to editor options
+                  editor.updateOptions({
+                    quickSuggestions: autocompleteOn,
+                    suggestOnTriggerCharacters: autocompleteOn,
+                    wordBasedSuggestions: autocompleteOn ? "currentDocument" : "off",
+                    parameterHints: { enabled: autocompleteOn },
+                    inlineSuggest: { enabled: autocompleteOn },
+                  });
                 }}
                 options={{
                   fontSize: 13,
