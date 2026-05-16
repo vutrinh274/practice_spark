@@ -375,6 +375,8 @@ export default function ProblemPage() {
                   prose-p:leading-relaxed prose-p:my-2
                   prose-strong:text-gray-900 prose-strong:font-semibold
                   prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded prose-code:text-xs
+                  prose-code:before:content-none prose-code:after:content-none
+                  prose-code:font-normal
                   prose-h2:text-sm prose-h2:font-semibold prose-h2:text-gray-900 prose-h2:mt-4 prose-h2:mb-1">
                   <ReactMarkdown>{problem.description}</ReactMarkdown>
                 </div>
@@ -422,7 +424,9 @@ export default function ProblemPage() {
                     {hints.slice(0, hintIndex + 1).map((hint, i) => (
                       <div key={i} className="bg-amber-50 border border-amber-100 rounded p-3">
                         <p className="text-xs text-amber-600 font-medium mb-1">Hint {i + 1}</p>
-                        <div className="text-xs text-amber-800 prose prose-xs max-w-none">
+                        <div className="text-xs text-amber-800 prose prose-xs max-w-none
+                          prose-code:before:content-none prose-code:after:content-none
+                          prose-code:font-normal prose-code:bg-amber-100 prose-code:px-1 prose-code:rounded">
                           <ReactMarkdown>{hint}</ReactMarkdown>
                         </div>
                       </div>
@@ -497,6 +501,8 @@ export default function ProblemPage() {
                         )}
                         <div className="prose prose-xs prose-gray max-w-none text-xs
                           prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded
+                          prose-code:before:content-none prose-code:after:content-none
+                          prose-code:font-normal
                           prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-100 prose-pre:text-xs">
                           <ReactMarkdown
                             components={{
