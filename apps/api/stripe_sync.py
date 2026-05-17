@@ -87,9 +87,10 @@ def sync_subscribers():
 
 
 async def start_sync_loop():
+    loop = asyncio.get_event_loop()
     while True:
         try:
-            sync_subscribers()
+            await loop.run_in_executor(None, sync_subscribers)
         except Exception as e:
             print(f"[stripe_sync] Sync failed: {e}")
         await asyncio.sleep(SYNC_INTERVAL_MINUTES * 60)

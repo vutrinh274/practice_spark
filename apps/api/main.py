@@ -72,6 +72,30 @@ async def startup():
 
     asyncio.create_task(evict_sessions())
 
+    async def revoke_github_access():
+        from github import remove_from_github_team
+        import logging
+        while True:
+            await asyncio.sleep(30 * 60)
+            print("[github_revoke] Running revocation check...")
+            with Session(engine) as session:
+                activations = session.query(GithubActivation).all()
+                to_revoke = [a for a in activations if not is_subscriber(a.email)]
+            print(f"[github_revoke] {len(activations)} activations, {len(to_revoke)} to revoke")
+            for activation in to_revoke:
+                try:
+                    await remove_from_github_team(activation.github_username)
+                    with Session(engine) as session:
+                        a = session.get(GithubActivation, activation.email)
+                        if a:
+                            session.delete(a)
+                            session.commit()
+                    logging.info(f"Revoked GitHub access for {activation.email} ({activation.github_username})")
+                except Exception as e:
+                    logging.error(f"Failed to revoke GitHub for {activation.github_username}: {e}")
+
+    asyncio.create_task(revoke_github_access())
+
 
 
 class SubmissionRequest(BaseModel):

@@ -29,3 +29,13 @@ async def add_to_github_team(username: str) -> None:
         )
         if not res.is_success:
             raise RuntimeError(f"GitHub API error {res.status_code}: {res.text}")
+
+
+async def remove_from_github_team(username: str) -> None:
+    async with httpx.AsyncClient(timeout=10) as client:
+        res = await client.delete(
+            f"https://api.github.com/orgs/{GITHUB_ORG}/teams/{GITHUB_TEAM_SLUG}/memberships/{username}",
+            headers={**_HEADERS, "Authorization": f"Bearer {GITHUB_TOKEN}"},
+        )
+        if not res.is_success and res.status_code != 404:
+            raise RuntimeError(f"GitHub API error {res.status_code}: {res.text}")
