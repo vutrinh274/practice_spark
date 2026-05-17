@@ -269,24 +269,26 @@ async def add_subscriber(req: SubscriberRequest, api_key: str = Security(_admin_
 
 
 @app.post("/admin/subscribers/bulk")
-async def add_subscribers_bulk(request: Request, api_key: str = Security(_admin_key_header)):
+async def add_subscribers_bulk(file: UploadFile, api_key: str = Security(_admin_key_header)):
     _check_admin(api_key)
     import csv as csv_module
     from io import StringIO
-    from database import Subscriber
+    from database import ManualSubscriber
     from datetime import datetime
-    body = await request.body()
+    body = await file.read()
     reader = csv_module.DictReader(StringIO(body.decode()))
     added, skipped = 0, 0
     with Session(engine) as session:
         for row in reader:
-            email = row.get("email", "").strip()
+            email = (row.get("email") or row.get("Email") or "").strip()
             if not email:
+                skipped += 1
                 continue
             if session.get(ManualSubscriber, email):
                 skipped += 1
                 continue
-            session.add(ManualSubscriber(email=email, notes=row.get("notes", ""), added_at=datetime.utcnow()))
+            notes = row.get("notes") or row.get("Type") or ""
+            session.add(ManualSubscriber(email=email, notes=notes, added_at=datetime.utcnow()))
             added += 1
         session.commit()
     return {"added": added, "skipped": skipped}
@@ -305,9 +307,14 @@ async def remove_subscriber(email: str, api_key: str = Security(_admin_key_heade
 
 
 @app.get("/admin/subscribers")
-async def list_subscribers(api_key: str = Security(_admin_key_header)):
+async def list_subscribers(api_key: str = Security(_admin_key_header), source: str = "all"):
     _check_admin(api_key)
-    return list_all_subscribers()
+    if source not in ("all", "stripe", "manual"):
+        raise HTTPException(status_code=400, detail="source must be 'all', 'stripe', or 'manual'")
+    subs = list_all_subscribers()
+    if source != "all":
+        subs = [s for s in subs if s["source"] == source]
+    return subs
 
 
 # ── User endpoints ────────────────────────────────────────────────────────────
