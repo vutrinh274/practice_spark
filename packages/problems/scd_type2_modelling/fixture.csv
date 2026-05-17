@@ -1,0 +1,14 @@
+player_name,scoring_class,is_active,season
+Mike,Star,true,2018
+Mike,Star,true,2019
+Mike,Good,true,2020
+Mike,Good,false,2021
+Mike,Good,true,2022
+LeBron,Star,true,2018
+LeBron,Star,true,2019
+LeBron,Star,true,2020
+LeBron,Star,true,2021
+LeBron,Star,true,2022
+Steph,Good,true,2021
+Steph,Good,true,2022
+Kobe,Star,false,2018
