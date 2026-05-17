@@ -76,7 +76,7 @@ async def startup():
         from github import remove_from_github_team
         import logging
         while True:
-            await asyncio.sleep(30 * 60)
+            await asyncio.sleep(24 * 60 * 60)
             print("[github_revoke] Running revocation check...")
             with Session(engine) as session:
                 activations = session.query(GithubActivation).all()
