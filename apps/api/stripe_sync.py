@@ -86,6 +86,22 @@ def sync_subscribers():
     print(f"[stripe_sync] Sync complete — {len(paid_emails)} stripe subscribers")
 
 
+def has_active_stripe_subscription(email: str) -> bool:
+    """Live Stripe API check — bypasses local cache. Used as fallback in is_subscriber."""
+    if not STRIPE_SECRET_KEY:
+        return False
+    try:
+        customers = _stripe_get("customers", {"email": email, "limit": 1})
+        if not customers["data"]:
+            return False
+        customer_id = customers["data"][0]["id"]
+        subs = _stripe_get("subscriptions", {"customer": customer_id, "status": "active", "limit": 1})
+        return len(subs["data"]) > 0
+    except Exception as e:
+        print(f"[stripe_sync] Live check failed for {email}: {e}")
+        return False
+
+
 async def start_sync_loop():
     loop = asyncio.get_event_loop()
     while True:

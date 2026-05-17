@@ -65,13 +65,17 @@ def get_db():
 
 
 def is_subscriber(email: str) -> bool:
-    """Check both Stripe and manual subscriber tables."""
+    """Check subscriber status. DB is the fast path; Stripe API is the fallback."""
     if not email:
         return False
     with Session(engine) as session:
         in_stripe = session.get(StripeSubscriber, email) is not None
         in_manual = session.get(ManualSubscriber, email) is not None
-        return in_stripe or in_manual
+        if in_stripe or in_manual:
+            return True
+    # DB cache may be stale — verify directly with Stripe
+    from stripe_sync import has_active_stripe_subscription
+    return has_active_stripe_subscription(email)
 
 
 def list_all_subscribers() -> list[dict]:
