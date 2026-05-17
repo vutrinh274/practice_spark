@@ -274,24 +274,38 @@ async def add_subscribers_bulk(file: UploadFile, api_key: str = Security(_admin_
     import csv as csv_module
     from io import StringIO
     from database import ManualSubscriber
-    from datetime import datetime
+    from datetime import datetime, timezone
     body = await file.read()
     reader = csv_module.DictReader(StringIO(body.decode()))
-    added, skipped = 0, 0
+    csv_emails: set[str] = set()
+    rows = []
+    for row in reader:
+        email = (row.get("email") or row.get("Email") or "").strip()
+        if email:
+            csv_emails.add(email)
+            rows.append(row)
+
+    added, removed = 0, 0
     with Session(engine) as session:
-        for row in reader:
-            email = (row.get("email") or row.get("Email") or "").strip()
-            if not email:
-                skipped += 1
-                continue
-            if session.get(ManualSubscriber, email):
-                skipped += 1
-                continue
+        existing = {s.email: s for s in session.query(ManualSubscriber).all()}
+        existing_emails = set(existing.keys())
+
+        to_remove = existing_emails - csv_emails
+        to_add = csv_emails - existing_emails
+
+        for email in to_remove:
+            session.delete(existing[email])
+            removed += 1
+
+        csv_rows = {(row.get("email") or row.get("Email") or "").strip(): row for row in rows}
+        for email in to_add:
+            row = csv_rows[email]
             notes = row.get("notes") or row.get("Type") or ""
-            session.add(ManualSubscriber(email=email, notes=notes, added_at=datetime.utcnow()))
+            session.add(ManualSubscriber(email=email, notes=notes, added_at=datetime.now(timezone.utc)))
             added += 1
+
         session.commit()
-    return {"added": added, "skipped": skipped}
+    return {"added": added, "removed": removed}
 
 
 @app.delete("/admin/subscribers/{email}")
