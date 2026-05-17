@@ -4,7 +4,7 @@ load_dotenv()
 import csv
 import os
 from typing import Literal
-from fastapi import FastAPI, HTTPException, Request, Security
+from fastapi import FastAPI, HTTPException, Request, Security, UploadFile
 from fastapi.security import APIKeyHeader
 from auth import get_current_user, get_user_id, require_auth, get_user_email
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +13,7 @@ from sandbox import check_ast
 from errors import friendly_error
 from executor import execute_submission, validate_sql
 from loader import get_problem, get_dataset_local_path, list_problems, load_registry
-from database import init_db, is_subscriber, save_submission, get_user_progress, get_problem_submissions, ManualSubscriber, StripeSubscriber, list_all_subscribers, Session, engine
+from database import init_db, is_subscriber, save_submission, get_user_progress, get_problem_submissions, get_github_activation, save_github_activation, GithubActivation, ManualSubscriber, StripeSubscriber, list_all_subscribers, Session, engine
 from stripe_sync import start_sync_loop
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -337,6 +337,67 @@ async def me_access(request: Request):
 async def me_submissions(problem_id: str, request: Request):
     user = await require_auth(request)
     return get_problem_submissions(get_user_id(user), problem_id)
+
+
+@app.post("/admin/github-activations/bulk")
+async def bulk_github_activations(file: UploadFile, api_key: str = Security(_admin_key_header)):
+    """Migrate existing activations. CSV must have headers: email,github_username"""
+    _check_admin(api_key)
+    import csv as csv_module
+    from io import StringIO
+    from datetime import datetime
+    body = await file.read()
+    reader = csv_module.DictReader(StringIO(body.decode()))
+    added, skipped = 0, 0
+    with Session(engine) as session:
+        for row in reader:
+            email = row.get("email", "").strip().lower()
+            github_username = row.get("github_username", "").strip().lower()
+            if not email or not github_username:
+                continue
+            if session.get(GithubActivation, email):
+                skipped += 1
+                continue
+            session.add(GithubActivation(email=email, github_username=github_username))
+            added += 1
+        session.commit()
+    return {"added": added, "skipped": skipped}
+
+
+# ── GitHub activation ─────────────────────────────────────────────────────────
+
+class GithubActivateRequest(BaseModel):
+    email: str
+    github_username: str
+
+
+@app.post("/github/activate")
+@limiter.limit("5/minute")
+async def github_activate(req: GithubActivateRequest, request: Request):
+    from github import github_user_exists, add_to_github_team
+
+    email = req.email.strip().lower()
+    username = req.github_username.strip().lower()
+
+    if not email or not username:
+        raise HTTPException(status_code=400, detail="Both email and github_username are required.")
+
+    if not is_subscriber(email):
+        raise HTTPException(status_code=403, detail="No active paid subscription found for that email.")
+
+    if get_github_activation(email):
+        raise HTTPException(status_code=409, detail="This email is already linked to a GitHub account.")
+
+    if not await github_user_exists(username):
+        raise HTTPException(status_code=400, detail=f'GitHub user "{username}" not found.')
+
+    try:
+        await add_to_github_team(username)
+    except RuntimeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+    save_github_activation(email, username)
+    return {"status": "invited", "github_username": username}
 
 
 @app.post("/admin/sync-subscribers")

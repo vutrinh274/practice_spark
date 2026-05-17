@@ -47,6 +47,14 @@ class Progress(Base):
     last_submitted_at = Column(DateTime, nullable=True)
 
 
+class GithubActivation(Base):
+    """Records email → GitHub username mappings after successful org invite."""
+    __tablename__ = "github_activations"
+    email = Column(String, primary_key=True, index=True)
+    github_username = Column(String, nullable=False, index=True)
+    activated_at = Column(DateTime, default=datetime.utcnow)
+
+
 def init_db():
     Base.metadata.create_all(bind=engine)
 
@@ -120,6 +128,18 @@ def get_user_progress(user_id: str) -> list[dict]:
             }
             for r in rows
         ]
+
+
+def get_github_activation(email: str) -> "GithubActivation | None":
+    with Session(engine) as session:
+        return session.get(GithubActivation, email)
+
+
+def save_github_activation(email: str, github_username: str):
+    with Session(engine) as session:
+        activation = GithubActivation(email=email, github_username=github_username)
+        session.add(activation)
+        session.commit()
 
 
 def get_problem_submissions(user_id: str, problem_id: str) -> list[dict]:
