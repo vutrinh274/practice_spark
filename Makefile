@@ -76,7 +76,8 @@ seed:
 		packages/problems/flatten_structs \
 		packages/problems/etl_job_stats \
 		packages/problems/increasing_yoy_sales \
-		packages/problems/scd_type2; do \
+		packages/problems/scd_type2 \
+		packages/problems/scd_type2_modelling; do \
 		echo "Seeding $$problem..."; \
 		cd $$problem && ../../../apps/api/.venv/bin/python reference.py && cd ../../..; \
 	done
