@@ -67,6 +67,14 @@ interface Result {
 
 const SQL_PLACEHOLDER = "-- Write your Spark SQL query here\nSELECT *\nFROM data\nLIMIT 10";
 
+const DESC_WIDTH_KEY = "spark_practice_desc_width";
+const DESC_WIDTH_DEFAULT = 420;
+const DESC_WIDTH_MIN = 300;
+const DESC_WIDTH_MAX = 900;
+
+const AUTOCOMPLETE_KEY = "spark_practice_autocomplete";
+const LIVE_VALIDATION_KEY = "spark_practice_live_validation";
+
 function storageKey(problemId: string, mode: string) {
   return `spark_practice_${problemId}_${mode}`;
 }
@@ -144,6 +152,23 @@ export default function ProblemPage() {
   const monacoRef = useRef<typeof import("monaco-editor") | null>(null);
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const sqlValidationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [descWidth, setDescWidth] = useState<number>(() => {
+    if (typeof window === "undefined") return DESC_WIDTH_DEFAULT;
+    const saved = Number(localStorage.getItem(DESC_WIDTH_KEY));
+    return saved >= DESC_WIDTH_MIN && saved <= DESC_WIDTH_MAX ? saved : DESC_WIDTH_DEFAULT;
+  });
+  const descWidthRef = useRef(descWidth);
+  useEffect(() => { descWidthRef.current = descWidth; }, [descWidth]);
+  const [autocompleteOn, setAutocompleteOn] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem(AUTOCOMPLETE_KEY) !== "off";
+  });
+  const [liveValidationOn, setLiveValidationOn] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem(LIVE_VALIDATION_KEY) !== "off";
+  });
+  const liveValidationRef = useRef(liveValidationOn);
+  useEffect(() => { liveValidationRef.current = liveValidationOn; }, [liveValidationOn]);
 
   useEffect(() => {
     Promise.all([
@@ -163,14 +188,63 @@ export default function ProblemPage() {
   // Register completions once both editor and schema are available
   useEffect(() => {
     if (!problem?.schema || !monacoRef.current) return;
+    sqlCompletionDisposable.current?.dispose();
+    dfCompletionDisposable.current?.dispose();
+    sqlCompletionDisposable.current = null;
+    dfCompletionDisposable.current = null;
+    if (!autocompleteOn) return;
     const flatSchema: SchemaColumn[] = Object.entries(problem.schema).flatMap(
       ([table, cols]) => cols.map((c) => ({ ...c, table }))
     );
-    sqlCompletionDisposable.current?.dispose();
-    dfCompletionDisposable.current?.dispose();
     sqlCompletionDisposable.current = registerSparkSqlCompletions(monacoRef.current, flatSchema);
     dfCompletionDisposable.current = registerSparkDataframeCompletions(monacoRef.current, flatSchema);
-  }, [problem?.schema, monacoRef.current]);
+  }, [problem?.schema, monacoRef.current, autocompleteOn]);
+
+  // Reflect autocomplete state in Monaco editor options
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    editor.updateOptions({
+      quickSuggestions: autocompleteOn,
+      suggestOnTriggerCharacters: autocompleteOn,
+      wordBasedSuggestions: autocompleteOn ? "currentDocument" : "off",
+      parameterHints: { enabled: autocompleteOn },
+      inlineSuggest: { enabled: autocompleteOn },
+    });
+  }, [autocompleteOn]);
+
+  const toggleAutocomplete = () => {
+    setAutocompleteOn((prev) => {
+      const next = !prev;
+      try { localStorage.setItem(AUTOCOMPLETE_KEY, next ? "on" : "off"); } catch {}
+      return next;
+    });
+  };
+
+  // When live validation is turned off, cancel any pending check,
+  // clear the banner, and remove existing squiggles.
+  useEffect(() => {
+    if (liveValidationOn) return;
+    if (sqlValidationTimer.current) {
+      clearTimeout(sqlValidationTimer.current);
+      sqlValidationTimer.current = null;
+    }
+    setSyntaxError(null);
+    const monaco = monacoRef.current;
+    const model = editorRef.current?.getModel();
+    if (monaco && model) {
+      monaco.editor.setModelMarkers(model, "sql-parser", []);
+      monaco.editor.setModelMarkers(model, "python-parser", []);
+    }
+  }, [liveValidationOn]);
+
+  const toggleLiveValidation = () => {
+    setLiveValidationOn((prev) => {
+      const next = !prev;
+      try { localStorage.setItem(LIVE_VALIDATION_KEY, next ? "on" : "off"); } catch {}
+      return next;
+    });
+  };
 
   const handleModeChange = (m: Mode) => {
     setMode(m);
@@ -328,7 +402,10 @@ export default function ProblemPage() {
 
       <div className="flex flex-1 overflow-hidden gap-1.5 p-1.5">
         {/* Left — problem panel */}
-        <div className="w-[420px] shrink-0 bg-white rounded-lg border border-gray-200 flex flex-col overflow-hidden">
+        <div
+          className="shrink-0 bg-white rounded-lg border border-gray-200 flex flex-col overflow-hidden"
+          style={{ width: descWidth }}
+        >
           <div className="flex border-b border-gray-100 px-4 gap-4">
             <button className="text-xs font-medium text-gray-900 py-3 border-b-2 border-gray-900 -mb-px">
               Description
@@ -360,6 +437,8 @@ export default function ProblemPage() {
                   prose-p:leading-relaxed prose-p:my-2
                   prose-strong:text-gray-900 prose-strong:font-semibold
                   prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded prose-code:text-xs
+                  prose-code:before:content-none prose-code:after:content-none
+                  prose-code:font-normal
                   prose-h2:text-sm prose-h2:font-semibold prose-h2:text-gray-900 prose-h2:mt-4 prose-h2:mb-1">
                   <ReactMarkdown>{problem.description}</ReactMarkdown>
                 </div>
@@ -407,7 +486,9 @@ export default function ProblemPage() {
                     {hints.slice(0, hintIndex + 1).map((hint, i) => (
                       <div key={i} className="bg-amber-50 border border-amber-100 rounded p-3">
                         <p className="text-xs text-amber-600 font-medium mb-1">Hint {i + 1}</p>
-                        <div className="text-xs text-amber-800 prose prose-xs max-w-none">
+                        <div className="text-xs text-amber-800 prose prose-xs max-w-none
+                          prose-code:before:content-none prose-code:after:content-none
+                          prose-code:font-normal prose-code:bg-amber-100 prose-code:px-1 prose-code:rounded">
                           <ReactMarkdown>{hint}</ReactMarkdown>
                         </div>
                       </div>
@@ -482,6 +563,8 @@ export default function ProblemPage() {
                         )}
                         <div className="prose prose-xs prose-gray max-w-none text-xs
                           prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded
+                          prose-code:before:content-none prose-code:after:content-none
+                          prose-code:font-normal
                           prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-100 prose-pre:text-xs">
                           <ReactMarkdown
                             components={{
@@ -515,6 +598,44 @@ export default function ProblemPage() {
 
         </div>
 
+        {/* Vertical resizer between description and editor */}
+        <div
+          className="w-2 flex items-center justify-center cursor-col-resize group shrink-0"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            const startX = e.clientX;
+            const startWidth = descWidth;
+            let rafId = 0;
+            const onMove = (ev: MouseEvent) => {
+              cancelAnimationFrame(rafId);
+              rafId = requestAnimationFrame(() => {
+                const next = Math.min(
+                  Math.max(startWidth + (ev.clientX - startX), DESC_WIDTH_MIN),
+                  DESC_WIDTH_MAX,
+                );
+                setDescWidth(next);
+              });
+            };
+            const onUp = () => {
+              cancelAnimationFrame(rafId);
+              window.removeEventListener("mousemove", onMove);
+              window.removeEventListener("mouseup", onUp);
+              try {
+                localStorage.setItem(DESC_WIDTH_KEY, String(descWidthRef.current));
+              } catch {}
+            };
+            window.addEventListener("mousemove", onMove);
+            window.addEventListener("mouseup", onUp);
+          }}
+          onDoubleClick={() => {
+            setDescWidth(DESC_WIDTH_DEFAULT);
+            try { localStorage.setItem(DESC_WIDTH_KEY, String(DESC_WIDTH_DEFAULT)); } catch {}
+          }}
+          title="Drag to resize · double-click to reset"
+        >
+          <div className="w-1 h-8 rounded-full bg-gray-200 group-hover:bg-gray-400 transition-colors" />
+        </div>
+
         {/* Right — editor + result panels */}
         <div className="flex-1 flex flex-col overflow-hidden min-w-0">
           <div className={`bg-white rounded-lg border border-gray-200 flex flex-col overflow-hidden ${resultOpen ? "flex-1" : "flex-1"}`}>
@@ -536,6 +657,28 @@ export default function ProblemPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleAutocomplete}
+                  title={autocompleteOn ? "Autocomplete on — click to turn off" : "Autocomplete off — click to turn on"}
+                  className="text-xs px-2 py-1 rounded font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors hidden sm:flex items-center gap-1.5"
+                >
+                  <span
+                    aria-hidden
+                    className={`inline-block w-2 h-2 rounded-full ${autocompleteOn ? "bg-emerald-500" : "bg-gray-300"}`}
+                  />
+                  <span className={autocompleteOn ? "" : "line-through text-gray-400"}>Autocomplete</span>
+                </button>
+                <button
+                  onClick={toggleLiveValidation}
+                  title={liveValidationOn ? "Live error check on — click to turn off" : "Live error check off — click to turn on"}
+                  className="text-xs px-2 py-1 rounded font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors hidden sm:flex items-center gap-1.5"
+                >
+                  <span
+                    aria-hidden
+                    className={`inline-block w-2 h-2 rounded-full ${liveValidationOn ? "bg-emerald-500" : "bg-gray-300"}`}
+                  />
+                  <span className={liveValidationOn ? "" : "line-through text-gray-400"}>Live errors</span>
+                </button>
                 <span className="text-xs text-gray-300 hidden sm:block">⌘↵</span>
                 <button
                   onClick={handleSubmit}
@@ -588,6 +731,7 @@ export default function ProblemPage() {
                   const newCode = v ?? "";
                   setCode(newCode);
                   saveCode(id, mode, newCode);
+                  if (!liveValidationRef.current) return;
                   if (mode === "sql" && monacoRef.current) {
                     if (sqlValidationTimer.current) clearTimeout(sqlValidationTimer.current);
                     const monaco = monacoRef.current;
@@ -630,7 +774,7 @@ export default function ProblemPage() {
                     () => { handleSubmit(); }
                   );
 
-                  if (problem?.schema) {
+                  if (problem?.schema && autocompleteOn) {
                     const flatSchema: SchemaColumn[] = Object.entries(problem.schema).flatMap(
                       ([table, cols]) => cols.map((c) => ({ ...c, table }))
                     );
@@ -639,6 +783,15 @@ export default function ProblemPage() {
                     sqlCompletionDisposable.current = registerSparkSqlCompletions(monaco, flatSchema);
                     dfCompletionDisposable.current = registerSparkDataframeCompletions(monaco, flatSchema);
                   }
+
+                  // Apply initial autocomplete preference to editor options
+                  editor.updateOptions({
+                    quickSuggestions: autocompleteOn,
+                    suggestOnTriggerCharacters: autocompleteOn,
+                    wordBasedSuggestions: autocompleteOn ? "currentDocument" : "off",
+                    parameterHints: { enabled: autocompleteOn },
+                    inlineSuggest: { enabled: autocompleteOn },
+                  });
                 }}
                 options={{
                   fontSize: 13,
