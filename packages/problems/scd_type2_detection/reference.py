@@ -4,7 +4,7 @@ from pyspark.sql.window import Window
 from pathlib import Path
 
 spark = SparkSession.builder.remote("sc://localhost:15002").getOrCreate()
-BASE = "/problems/scd_type2"
+BASE = "/problems/scd_type2_detection"
 
 df = spark.read.option("header", True).option("inferSchema", True).csv(f"{BASE}/fixture.csv")
 

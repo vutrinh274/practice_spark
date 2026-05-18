@@ -79,7 +79,7 @@ seed:
 		packages/problems/scd_type2_detection \
 		packages/problems/scd_type2_modelling; do \
 		echo "Seeding $$problem..."; \
-		cd $$problem && ../../../apps/api/.venv/bin/python reference.py && cd ../../..; \
+		(cd $$problem && ../../../apps/api/.venv/bin/python reference.py); \
 	done
 
 docker-full:
