@@ -246,7 +246,7 @@ async def validate_sql(problem_id: str, code: str) -> dict:
         try:
             return _run()
         except Exception as e:
-            if "SESSION_CLOSED" in str(e) or "INVALID_HANDLE" in str(e):
+            if "SESSION_CLOSED" in str(e) or "INVALID_HANDLE" in str(e) or "SESSION_CHANGED" in str(e):
                 return _run(_get_fresh_session_for(None))
             raise
 
@@ -297,7 +297,7 @@ async def execute_submission(problem_id: str, mode: str, code: str, user_id: str
         try:
             return _run()
         except Exception as e:
-            if "SESSION_CLOSED" in str(e) or "INVALID_HANDLE" in str(e):
+            if "SESSION_CLOSED" in str(e) or "INVALID_HANDLE" in str(e) or "SESSION_CHANGED" in str(e):
                 return _run(_get_fresh_session_for(user_id))
             raise
 

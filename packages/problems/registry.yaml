@@ -72,5 +72,5 @@ problems:
   - path: ./flatten_structs
   - path: ./etl_job_stats
   - path: ./increasing_yoy_sales
-  - path: ./scd_type2
+  - path: ./scd_type2_detection
   - path: ./scd_type2_modelling
