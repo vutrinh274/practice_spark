@@ -5,6 +5,7 @@ import type * as Monaco from "monaco-editor";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { apiFetch, API_URL } from "@/lib/api";
 import { DIFFICULTY_COLOR } from "@/lib/constants";
 import { registerSparkSqlCompletions, type SchemaColumn } from "@/lib/sparkSqlCompletions";
@@ -367,7 +368,7 @@ export default function ProblemPage() {
                   prose-strong:text-gray-900 prose-strong:font-semibold
                   prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded prose-code:text-xs
                   prose-h2:text-sm prose-h2:font-semibold prose-h2:text-gray-900 prose-h2:mt-4 prose-h2:mb-1">
-                  <ReactMarkdown>{problem.description}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{problem.description}</ReactMarkdown>
                 </div>
 
                 {preview && Object.entries(preview).map(([table, rows]) => {
@@ -414,7 +415,7 @@ export default function ProblemPage() {
                       <div key={i} className="bg-amber-50 border border-amber-100 rounded p-3">
                         <p className="text-xs text-amber-600 font-medium mb-1">Hint {i + 1}</p>
                         <div className="text-xs text-amber-800 prose prose-xs max-w-none">
-                          <ReactMarkdown>{hint}</ReactMarkdown>
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{hint}</ReactMarkdown>
                         </div>
                       </div>
                     ))}
@@ -490,6 +491,7 @@ export default function ProblemPage() {
                           prose-code:text-gray-800 prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded
                           prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-100 prose-pre:text-xs">
                           <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
                             components={{
                               pre({ children }) {
                                 const code = ((children as React.ReactElement)?.props as { children?: string })?.children ?? "";
