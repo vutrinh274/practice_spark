@@ -22,3 +22,12 @@ validation:
   type_coerce: true
 
 expected_output: expected.csv
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
