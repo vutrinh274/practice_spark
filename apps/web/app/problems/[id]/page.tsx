@@ -177,6 +177,7 @@ export default function ProblemPage() {
     const saved = loadSavedCode(id, m);
     setCode(saved ?? (m === "sql" ? SQL_PLACEHOLDER : dataframePlaceholder(problem?.schema ?? {})));
     setResult(null);
+    setLoading(false);
     setSyntaxError(null);
   };
 
@@ -536,6 +537,14 @@ export default function ProblemPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <a
+                  href="https://substack.com/@vutr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-medium px-4 py-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-md transition-colors"
+                >
+                  Feedback
+                </a>
                 {/* <span className="text-xs text-gray-300 hidden sm:block">⌘↵</span> */}
                 <button
                   onClick={handleSubmit}
