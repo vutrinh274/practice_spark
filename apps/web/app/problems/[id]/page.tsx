@@ -536,7 +536,7 @@ export default function ProblemPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-300 hidden sm:block">⌘↵</span>
+                {/* <span className="text-xs text-gray-300 hidden sm:block">⌘↵</span> */}
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
@@ -624,11 +624,11 @@ export default function ProblemPage() {
                   monacoRef.current = monaco;
                   editorRef.current = editor;
 
-                  // Cmd+Enter / Ctrl+Enter to run
-                  editor.addCommand(
-                    monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
-                    () => { handleSubmit(); }
-                  );
+                  // Cmd+Enter / Ctrl+Enter to run (temporarily disabled)
+                  // editor.addCommand(
+                  //   monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+                  //   () => { handleSubmit(); }
+                  // );
 
                   if (problem?.schema) {
                     const flatSchema: SchemaColumn[] = Object.entries(problem.schema).flatMap(
