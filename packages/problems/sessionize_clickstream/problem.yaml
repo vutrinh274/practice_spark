@@ -17,8 +17,18 @@ datasets:
       event_time: string
 
 validation:
-  method: dataframe_equal_ordered
+  strategy: dataframe_equal_ordered
   ordered: true
   type_coerce: true
 
-expected_output: expected.csv
+reference:
+  solution: ./reference.py
+
+hints:
+  - ./hints/concept.md
+  - ./hints/approach.md
+  - ./hints/query.md
+
+solution:
+  sql: ./solutions/sql.md
+  dataframe: ./solutions/dataframe.md
