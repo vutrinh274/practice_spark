@@ -126,9 +126,14 @@ export default function ProblemPage() {
   });
   const [problem, setProblem] = useState<Problem | null>(null);
   const [preview, setPreview] = useState<Preview | null>(null);
-  const [result, setResult] = useState<Result | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<Record<Mode, Result | null>>({ sql: null, dataframe: null });
+  const result = results[mode];
+  const setResult = (r: Result | null) => setResults((prev) => ({ ...prev, [mode]: r }));
+  const [loadings, setLoadings] = useState<Record<Mode, boolean>>({ sql: false, dataframe: false });
+  const loading = loadings[mode];
+  const setLoading = (v: boolean) => setLoadings((prev) => ({ ...prev, [mode]: v }));
   const [resultOpen, setResultOpen] = useState(false);
+  const isResultOpen = loading || !!result || resultOpen;
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [problemList, setProblemList] = useState<{ id: string }[]>([]);
   const [syntaxError, setSyntaxError] = useState<{ message: string; level: "error" | "warning" } | null>(null);
@@ -176,8 +181,8 @@ export default function ProblemPage() {
     setMode(m);
     const saved = loadSavedCode(id, m);
     setCode(saved ?? (m === "sql" ? SQL_PLACEHOLDER : dataframePlaceholder(problem?.schema ?? {})));
-    setResult(null);
     setLoading(false);
+    setResultOpen(false);
     setSyntaxError(null);
   };
 
@@ -668,7 +673,7 @@ export default function ProblemPage() {
             </div>
           </div>
 
-          {resultOpen && (
+          {isResultOpen && (
             <>
             <div
               className="h-2 flex items-center justify-center cursor-row-resize group shrink-0"
@@ -723,12 +728,12 @@ export default function ProblemPage() {
                 <button onClick={() => setResultOpen(false)} className="text-gray-400 hover:text-gray-600">✕</button>
               </div>
               <div className="flex-1 overflow-y-auto">
-                {!result ? (
+                {loading && !result ? (
                   <div className="flex items-center gap-2 text-xs text-gray-400 px-4 py-3">
                     <span className="animate-spin inline-block w-3 h-3 border border-gray-300 border-t-gray-600 rounded-full" />
                     Executing on Spark...
                   </div>
-                ) : (
+                ) : !result ? null : (
                   <div className="flex flex-col">
                     {!result.passed && (
                       <p className="text-xs text-red-500 font-mono whitespace-pre-wrap px-4 py-3 border-b border-gray-50">
