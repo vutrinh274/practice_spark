@@ -96,22 +96,25 @@ export default function ProblemsPage() {
           )}
 
           {!loading && !error && !accessLoading && !isSubscriber && (
-            <div className="px-5 py-3.5 bg-indigo-50 border-b border-indigo-100 flex items-center justify-between">
+            <div className="px-5 py-3 bg-indigo-50 border-b border-indigo-100 flex items-center justify-between gap-4">
               <div className="flex flex-col gap-0.5">
-                <span className="text-xs text-indigo-800 font-medium">
-                  Unlock {problems.length - 5}{" "}more problems, track your progress &amp; prepare better for Spark interviews.
+                <span className="text-xs font-medium text-indigo-800">
+                  Unlock {problems.length - 5} more problems, progress tracking, 200+ DE articles &amp; CLI tools (learn-spark, learn-dbt, learn-airflow) — <strong>$7/mo</strong>
                 </span>
-                <span className="text-xs text-indigo-500">
-                  ✓{" "}{problems.length}{" "}problems &nbsp;·&nbsp; ✓ Progress tracking &nbsp;·&nbsp; ✓ Submission history
+                <span className="text-xs text-indigo-400">
+                  🎓 Student?{" "}
+                  <a href="https://vutr.substack.com/subscribe?coupon=0b37c676" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-600">50% off</a>
+                  {" "}·{" "}🇻🇳 Vietnamese?{" "}
+                  <a href="https://vutr.substack.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-600">DM for 50% off</a>
                 </span>
               </div>
               <a
                 href="https://vutr.substack.com/subscribe?coupon=c08a9839"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded transition-colors shrink-0 ml-4"
+                className="text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded transition-colors shrink-0"
               >
-                Subscribe →
+                Upgrade →
               </a>
             </div>
           )}
