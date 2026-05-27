@@ -107,6 +107,10 @@ export default function ProblemsPage() {
                   {" "}·{" "}🇻🇳 Vietnamese?{" "}
                   <a href="https://vutr.substack.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-600">DM for 50% off</a>
                 </span>
+                <span className="text-xs text-indigo-400">
+                  ⏱ After upgrading, sync may take 5–10 min — please wait before retrying. Still stuck?{" "}
+                  <a href="https://vutr.substack.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-600">Let me know</a>.
+                </span>
               </div>
               <a
                 href="https://vutr.substack.com/subscribe?coupon=c08a9839"
