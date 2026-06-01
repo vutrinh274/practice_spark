@@ -384,6 +384,27 @@ async def me_submissions(problem_id: str, request: Request):
     return get_problem_submissions(get_user_id(user), problem_id)
 
 
+@app.get("/admin/github-activations")
+async def list_github_activations(api_key: str = Security(_admin_key_header)):
+    _check_admin(api_key)
+    with Session(engine) as session:
+        activations = session.query(GithubActivation).all()
+        return [
+            {"email": a.email, "github_username": a.github_username, "activated_at": a.activated_at.isoformat()}
+            for a in activations
+        ]
+
+
+@app.get("/admin/github-activations/{email}")
+async def get_github_activation_by_email(email: str, api_key: str = Security(_admin_key_header)):
+    _check_admin(api_key)
+    with Session(engine) as session:
+        a = session.get(GithubActivation, email)
+        if not a:
+            raise HTTPException(status_code=404, detail="GitHub activation not found")
+        return {"email": a.email, "github_username": a.github_username, "activated_at": a.activated_at.isoformat()}
+
+
 @app.post("/admin/github-activations/bulk")
 async def bulk_github_activations(file: UploadFile, api_key: str = Security(_admin_key_header)):
     """Migrate existing activations. CSV must have headers: email,github_username"""
